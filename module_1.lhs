@@ -1,47 +1,65 @@
 New Beginnings Winter 2019
 Haskell Lab
 
-------
-Name: 
-------
-
 Module 1: Weeks 1 and 2
 
-To run this program with ghci, use the command `ghci module_1.lhs`.
+------
+Name:
+------
 
 ------
 Part I: Functions over numeric types
 ------
 
-01. (example) Write a function, `mult3`, that multiplies any number it receives by 3.
+01. (Eg) Write a function, `mult3`, that takes a number and multiples it by 3.
 
+> mult3 :: Num a => a -> a
 > mult3 x = x * 3
-> prob1 = print ("mult3 3 = " ++ show (mult3 3))
+
+> prob1 = putStrLn ("mult3 3 = " ++ show (mult3 3))
+
 
 02. Write a function, `square`, that takes a number and returns the square of 
     that number. 
 
+square :: Num a => a -> a
+
 [FILL IN HERE]
 
-> prob2 = print ("square 5 = " ++ show (square 5))
+> prob2Test = square 4 == 16
+> prob2 = do
+>           putStrLn ("square 5 = " ++ show (square 5))
+>           putStrLn ("Test = " ++ if prob2Test then "PASS" else "FAIL")
+
 
 03. Write a function, `squareSum`, that takes two arguments, squares them both,
     and returns the sum of the two squares.
 
+squareSum :: Num a => a -> a -> a
+
 [FILL IN HERE]
 
-> prob3 = print ("squareSum 2 4 = " ++ show (squareSum 2 4))
+> prob3Test = squareSum 2 4 == 20
+> prob3 = do
+>           putStrLn ("squareSum 2 4 = " ++ show (squareSum 2 4))
+>           putStrLn ("Test = " ++ if prob3Test then "PASS" else "FAIL")
+
 
 04. Write a function, `perfSquare`, that determines if a given number is a 
     perfect square, where a perfect square is the square of an integer.
 
+perfSquare :: (Floating a, RealFrac a) => a -> Bool
+
 [FILL IN HERE]
 
+> prob4Test = perfSquare 64 == True && perfSquare 2 == False
 > prob4 = do
->          print ("perfSquare 64 = " ++ show (perfSquare 64))
->          print ("perfSquare 2 = " ++ show (perfSquare 2))
+>          putStrLn ("perfSquare 64 = " ++ show (perfSquare 64))
+>          putStrLn ("perfSquare 2 = " ++ show (perfSquare 2))
+>          putStrLn ("Test = " ++ if prob4Test then "PASS" else "FAIL")
 
-04. In order to avoid the bias from rounding floating points values always 
+
+05. In order to avoid the bias from rounding floating points values always 
     away from zero, Haskell uses "unbiased" or "statistician's" rounding in 
     which a value halfway between two integers will be rounded to the 
     nearest even integer. 
@@ -55,8 +73,12 @@ Part I: Functions over numeric types
     So `roundAway 1.5` = 2 and
        `roundAway 2.5` = 3.
 
+roundAway :: Integral p => Rational -> p
+
 [FILL IN HERE]
 
+> prob5Test = roundAway 1.5 == 2 && roundAway 2.5 == 3
 > prob5 = do
->    print("roundAway 1.5 = " ++ show (roundAway 1.5))
->    print("roudnAway 2.5 = " ++ show (roundAway 2.5))
+>           putStrLn ("roundAway 1.5 = " ++ show (roundAway 1.5))
+>           putStrLn ("roudnAway 2.5 = " ++ show (roundAway 2.5))
+>           putStrLn ("Test = " ++ if prob5Test then "PASS" else "FAIL")
