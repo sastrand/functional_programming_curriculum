@@ -14,6 +14,7 @@ Part I: Functions over numeric types
 
 > prob1 = putStrLn ("mult3 3 = " ++ show (mult3 3))
 
+
 02. Write a function, `square`, that takes a number and returns the square of 
     that number. 
 
@@ -25,6 +26,7 @@ Part I: Functions over numeric types
 >           putStrLn ("square 5 = " ++ show (square 5))
 >           putStrLn ("Test = " ++ if prob2Test then "PASS" else "FAIL")
 
+
 03. Write a function, `squareSum`, that takes two arguments, squares them both,
     and returns the sum of the two squares.
 
@@ -35,6 +37,7 @@ Part I: Functions over numeric types
 > prob3 = do
 >           putStrLn ("squareSum 2 4 = " ++ show (squareSum 2 4))
 >           putStrLn ("Test = " ++ if prob3Test then "PASS" else "FAIL")
+
 
 04. Write a function, `perfSquare`, that determines if a given number is a 
     perfect square, where a perfect square is the square of an integer.
@@ -49,6 +52,7 @@ Part I: Functions over numeric types
 >          putStrLn ("perfSquare 64 = " ++ show (perfSquare 64))
 >          putStrLn ("perfSquare 2 = " ++ show (perfSquare 2))
 >          putStrLn ("Test = " ++ if prob4Test then "PASS" else "FAIL")
+
 
 05. In order to avoid the bias from rounding floating points values always 
     away from zero, Haskell uses "unbiased" or "statistician's" rounding in 
