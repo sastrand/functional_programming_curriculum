@@ -4,6 +4,10 @@ Haskell Lab
 Module 1: Weeks 1 and 2
 
 ------
+Name:
+------
+
+------
 library code we'll use
 ------
 
