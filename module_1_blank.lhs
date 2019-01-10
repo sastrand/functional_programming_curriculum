@@ -22,9 +22,8 @@ Part I: Functions over numeric types
 02. Write a function, `square`, that takes a number and returns the square of 
     that number. 
 
-square :: Num a => a -> a
-
-[FILL IN HERE]
+> square :: Num a => a -> a
+> square = undefined
 
 > prob2Test = square 4 == 16
 > prob2 = do
@@ -35,9 +34,8 @@ square :: Num a => a -> a
 03. Write a function, `squareSum`, that takes two arguments, squares them both,
     and returns the sum of the two squares.
 
-squareSum :: Num a => a -> a -> a
-
-[FILL IN HERE]
+> squareSum :: Num a => a -> a -> a
+> squareSum = undefined
 
 > prob3Test = squareSum 2 4 == 20
 > prob3 = do
@@ -48,9 +46,8 @@ squareSum :: Num a => a -> a -> a
 04. Write a function, `perfSquare`, that determines if a given number is a 
     perfect square, where a perfect square is the square of an integer.
 
-perfSquare :: (Floating a, RealFrac a) => a -> Bool
-
-[FILL IN HERE]
+> perfSquare :: (Floating a, RealFrac a) => a -> Bool
+> perfSquare = undefined
 
 > prob4Test = perfSquare 64 == True && perfSquare 2 == False
 > prob4 = do
@@ -73,9 +70,8 @@ perfSquare :: (Floating a, RealFrac a) => a -> Bool
     So `roundAway 1.5` = 2 and
        `roundAway 2.5` = 3.
 
-roundAway :: Integral p => Rational -> p
-
-[FILL IN HERE]
+> roundAway :: Integral p => Rational -> p
+> roundAway = undefined
 
 > prob5Test = roundAway 1.5 == 2 && roundAway 2.5 == 3
 > prob5 = do
