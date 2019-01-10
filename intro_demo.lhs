@@ -48,7 +48,7 @@ described below.
 
 For now, let's start out with this document as our first .lhs file. In here, 
 every line that isn't prefixed by a `>` is a comment. This ends up being 
-handing for taking notes, and is the standard format for Haskell files 
+handy for taking notes, and is the standard format for Haskell files 
 in CS 557.
 
 If you want to use a regular Haskell file, where every line is code unless 
@@ -66,31 +66,119 @@ Here you can add multi-line definitions directly:
 Every module in the runtime environment has a name. At first, the Prelude is
 the only one, but when you load your file, it's given the name "Main". 
 
+If you haven't already, load this file into the interperter. 
+You should see the prompt change from `Prelude>` to `*Main>`.
+
 You can see the list of all the modules loaded (aside from those, like the
 Prelude, which are loaded automatically) with:
 
-Prelude> :show modules
+*Main> :show modules
 
 You can reload a given module with: 
 
-Prelude> :reload [given module name]
+*Main> :reload [given module name]
 or
-Prelude> :re [given module name]
+*Main> :re [given module name]
 
-And browse all the functions and constants in scope in a given 
+You can browse all the functions and constants in scope in a given 
 module with:
 
-Prelude> :browse [given module name]
+*Main> :browse [given module name]
 or
-Prelude> :bro [given module name]
+*Main> :bro [given module name]
 
-And to quite ghci you can type
+You can get the type of an object with:
 
-Prelude> :quit
+*Main> :type [name of object]
 or
-Prelude> :q
+*Main> :t [name of object]
 
-You can find more information about ghci commands here: https://downloads.haskell.org/~ghc/7.6.2/docs/html/users_guide/ghci-commands.html
+And you can quite ghci with:
+
+*Main> :quit
+or
+*Main> :q
+
+More information about ghci commands is available here:
+ https://downloads.haskell.org/~ghc/7.6.2/docs/html/users_guide/ghci-commands.html
+
+------
+
+Before starting the lab exercises, let's try out some type conversion.
+
+Haskell has two types of division, `div` which performs integer division
+on Integral types and the `/` function that evaluates the ratio to return 
+a Fractional types. In the interpreter we can see their types and test 
+them out:
+
+*Main> :t div
+div :: Integral a => a -> a -> a
+
+You can read this type signature "for all `a` where `a` is an Integral type,
+the function `div` will take a value of type `a`, then take another value of 
+type `a`, and then return a value of type `a`"
+
+*Main> div 3 2 
+*Main> 1
+
+Try the same for the `/` function.
+
+So say we've got this function:
+
+> fizz x y = div (x + 1) (y - 3)
+
+We can see the type of `fizz` is:
+
+*Main> :t fizz
+fizz :: Integral a => a -> a -> a
+
+Say that we want to pass the two values (sqrt 4) and (sqrt 16) to `fizz`.
+
+For Haskell the type of the `sqrt` function is:
+
+*Main> :t sqrt
+sqrt :: Floating a => a -> a
+
+That is, even if result has no fractional component, `sqrt` will still give us
+a result with a type in the Floating typeclass. So when we try:
+
+*Main> fizz (sqrt 4) (sqrt 16)
+
+We get a type error.
+
+We need to convert the results of `sqrt 4` and `sqrt 16` from the
+Floating typeclass to a type in the Integral typeclass or above (in the 
+typeclass tree)
+
+That is, we want to either round or truncate the result. In this case,
+either will work. Try:
+
+*Main> fizz (round (sqrt 4)) (truncate (sqrt 16))
+
+Success!
+
+Finally, sometimes we want to go the other way. For instance, if you try
+to add 1.5 to the value we just found:
+
+*Main> fizz (round (sqrt 4)) (truncate (sqrt 16)) + 1.5
+
+Let's check out the type of `+` to see why:
+
+*Main> :t (+)
+(+) :: Num a => a -> a -> a
+
+It appears to take any numeric type, but both inputs must have the same type.
+
+We know the result of `fizz` will be an int or an integer, so 
+we can change its type to a Floating type without losing any precision.
+
+To do that, the `fromIntegral` function is the way to go.
+
+*Main> fromIntegral (fizz (round (sqrt 4)) (truncate (sqrt 16))) + 1.5
+
+Again, sweet.
+
+------
 
 At this point, you should be well set to take on lab number 1.
 
