@@ -42,6 +42,11 @@ Part I: Functions over numeric types
 04. Write a function, `perfSquare`, that determines if a given number is a 
     perfect square, where a perfect square is the square of an integer.
 
+    Note: floating point values in Haskell are subject to the same rounding
+    errors as they are in any language. It's therefore possible that for some
+    perfect squares `sqrt` will return a value with an erroneous factional
+    value. The test cases provided here should work for you, but be aware. 
+
 > perfSquare :: (Floating a, RealFrac a) => a -> Bool
 > perfSquare x = if sqrt x - (fromIntegral (truncate (sqrt x))) == 0
 >                    then True
