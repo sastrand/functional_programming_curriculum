@@ -69,7 +69,7 @@ Part I: Functions over numeric types
        `roundAway 2.5` = 3.
 
 > roundAway :: Integral p => Rational -> p
-> roundAway x = if x - (toRational (truncate x)) == 0.5 
+> roundAway x = if x - (fromIntegral (truncate x)) == 0.5 
 >                   then if even (truncate x)
 >                       then truncate x + 1
 >                       else round x
