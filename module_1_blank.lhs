@@ -78,3 +78,4 @@ Part I: Functions over numeric types
 >           putStrLn ("roundAway 1.5 = " ++ show (roundAway 1.5))
 >           putStrLn ("roudnAway 2.5 = " ++ show (roundAway 2.5))
 >           putStrLn ("Test = " ++ if prob5Test then "PASS" else "FAIL")
+
