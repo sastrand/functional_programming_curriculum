@@ -119,6 +119,10 @@ returns those that are palidromes.
     it is divisible by 5, "FizzBuzz" if it is divisible by 3 and 5, and the
     original value as a string if it is divisible by neither.
 
+    Hint: You'll probably want to write two functions; one to take a single
+    numeric input and determine its fizz-buzz quality and one to apply that
+    function over every value in a given list.
+
     So an input of [1..15] would return:
 
     ["1", "2", "Fizz", "4", "Buzz", "Fizz", "7", "8", "Fizz", "Buzz",
