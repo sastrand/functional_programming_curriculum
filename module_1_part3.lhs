@@ -16,5 +16,7 @@ List comprehensions and ranges
 
 > evensMult4 = [x | x <- evens, mod x 4 == 0]
 
-**. Pass your FizzBuzz function the range that is every number divisible by 3
-    from 1 to 100 and print the result.
+**. Import your instance of the `module_1_part2.lhs` file into this file, to 
+use your FizzBuzz function, and pass it the range that is every number 
+divisible by 3 from 1 to 100. Print the result.
+
