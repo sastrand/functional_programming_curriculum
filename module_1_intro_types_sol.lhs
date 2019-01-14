@@ -1,45 +1,14 @@
 New Beginnings Winter 2019
 Haskell Lab
 
-Module 1: Weeks 1 and 2
+Module 1 Extra
+Practice with Type Conversions
 
 ------
-Part I: Functions over numeric types
+Name:
 ------
 
-01. Write a function, `mult3`, that multiplies any number it receives by 3.
-
-> mult3 :: Num a => a -> a
-> mult3 x = x * 3
-
-> prob1 = putStrLn ("mult3 3 = " ++ show (mult3 3))
-
-
-02. Write a function, `square`, that takes a number and returns the square of 
-    that number. 
-
-> square :: Num a => a -> a
-> square x = x * x
-
-> prob2Test = square 4 == 16
-> prob2 = do
->           putStrLn ("square 5 = " ++ show (square 5))
->           putStrLn ("Test = " ++ if prob2Test then "PASS" else "FAIL")
-
-
-03. Write a function, `squareSum`, that takes two arguments, squares them both,
-    and returns the sum of the two squares.
-
-> squareSum :: Num a => a -> a -> a
-> squareSum x y = x * x + y * y
-
-> prob3Test = squareSum 2 4 == 20
-> prob3 = do
->           putStrLn ("squareSum 2 4 = " ++ show (squareSum 2 4))
->           putStrLn ("Test = " ++ if prob3Test then "PASS" else "FAIL")
-
-
-04. Write a function, `perfSquare`, that determines if a given number is a 
+01. Write a function, `perfSquare`, that determines if a given number is a 
     perfect square, where a perfect square is the square of an integer.
 
     Note: floating point values in Haskell are subject to the same rounding
@@ -52,14 +21,14 @@ Part I: Functions over numeric types
 >                    then True
 >                    else False
 
-> prob4Test = perfSquare 64 == True && perfSquare 2 == False
-> prob4 = do
+> prob1Test = perfSquare 64 == True && perfSquare 2 == False
+> prob1 = do
 >          putStrLn ("perfSquare 64 = " ++ show (perfSquare 64))
 >          putStrLn ("perfSquare 2 = " ++ show (perfSquare 2))
 >          putStrLn ("Test = " ++ if prob4Test then "PASS" else "FAIL")
 
 
-05. In order to avoid the bias from rounding floating points values always 
+02. In order to avoid the bias from rounding floating points values always 
     away from zero, Haskell uses "unbiased" or "statistician's" rounding in 
     which a value halfway between two integers will be rounded to the 
     nearest even integer. 
@@ -80,8 +49,8 @@ Part I: Functions over numeric types
 >                       else round x
 >                   else round x
 
-> prob5Test = roundAway 1.5 == 2 && roundAway 2.5 == 3
-> prob5 = do
+> prob2Test = roundAway 1.5 == 2 && roundAway 2.5 == 3
+> prob2 = do
 >           putStrLn ("roundAway 1.5 = " ++ show (roundAway 1.5))
 >           putStrLn ("roudnAway 2.5 = " ++ show (roundAway 2.5))
 >           putStrLn ("Test = " ++ if prob5Test then "PASS" else "FAIL")

@@ -1,14 +1,11 @@
 New Beginnings Winter 2019
 Haskell Lab
 
-Module 1: Weeks 1 and 2
+Module 1 Extra
+Practice with Type Conversions
 
 ------
 Name:
-------
-
-------
-Part I: Functions over numeric types
 ------
 
 01. (Eg) Write a function, `mult3`, that takes a number and multiples it by 3.
@@ -45,6 +42,11 @@ Part I: Functions over numeric types
 
 04. Write a function, `perfSquare`, that determines if a given number is a 
     perfect square, where a perfect square is the square of an integer.
+
+    Note: floating point values in Haskell are subject to the same rounding
+    errors as they are in any language. It's therefore possible that for some
+    perfect squares `sqrt` will return a value with an erroneous factional
+    value. The test cases provided here should work for you, but be aware.
 
 > perfSquare :: (Floating a, RealFrac a) => a -> Bool
 > perfSquare = undefined

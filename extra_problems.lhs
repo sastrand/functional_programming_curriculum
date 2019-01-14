@@ -34,3 +34,53 @@ prob11 = putStrLn ("findAllLarge [(1,2,3), (4,5,6)] = " ++ show (findAllLarge [(
 
 **. Write a function, `findLargest`, that takes a list of tuples of integers
     and returns the largest value across all the tuples in the original list.
+
+
+**. Write a function, `isAnagram`, that takes two strings and determines 
+    if they are anagrams of one another.
+
+> isAnagram :: Ord a => [a] -> [a] -> Bool
+> isAnagram x y = if sort x == sort y
+>                    then True
+>                    else False
+
+> prob6Test = isAnagram "the morse code" "here come dots" 
+>             && not (isAnagram "foo" "nope")
+> prob6 = do
+>         putStrLn ("isAnagram \"the morse code\" \"here come dots\" = " 
+>                   ++ show (isAnagram "silent" "listen"))
+>         putStrLn ("isAnagram \"foo\" \"nope\" = " 
+>                   ++ show (isAnagram "foo" "nope"))
+>         putStrLn ("Test = " ++ if prob6Test then "PASS" else "FAIL")
+
+
+10. Write a function, `findRevs`, that takes two lists of words,
+    and returns a list of Boolean values indicating which pairs of 
+    words corresponding across the lists are the reverse of one another.
+
+> findRevs :: Eq a => [[a]] -> [[a]] -> [Bool]
+> findRevs x y = map isPalindrome (zipWith (++) x y)
+
+> prob10Test = findRevs ["cab", "tac", "eye"] ["cab", "cat", "eye"]
+>                == [False, True, True]
+> prob10 = do
+>            putStrLn ("findRevs [\"cab\", \"tac\", \"eye\"]" 
+>                       ++ " [\"cab\", \"cat\", \"eye\"] = " 
+>                       ++ show (findRevs ["cab", "tac", "eye"] ["cab", "cat", "eye"]))
+>            putStrLn ("Test = " ++ if prob10Test then "PASS" else "FAIL")
+
+
+11. Write a function, `quadEq`, that takes three arguments `a`, `b`, and `c`
+    representing the three coefficients in a second degree algebraic equation,
+    `a*(x^2) + b*x + c = 0`, and returns the possible values of x in a tuple.
+
+> quadEq :: Floating b => b -> b -> b -> (b, b)
+> quadEq a b c = (((-1 * b) + sqrt(b^2 - 4*a*c))/(2*a), 
+>                  ((-1 * b) - sqrt(b^2 - 4*a*c))/(2*a))
+
+> prob11Test = quadEq 1 2 (-3) == (1.0,-3.0)
+> prob11 = do
+>            putStrLn ("quadEq 1 2 (-3) = " ++ show (quadEq 1 2 (-3)))
+>            putStrLn ("Test = " ++ if prob11Test then "PASS" else "FAIL")
+
+

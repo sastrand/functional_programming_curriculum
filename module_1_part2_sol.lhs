@@ -3,6 +3,21 @@ Haskell Lab
 
 Module 1: Weeks 1 and 2
 
+
+We can create a list of sequenced values by writing out the first part of the 
+sequence, adding two dots, and then the end of the sequcene (though be
+adviced, this can get strange with floating point values)
+
+> someEvens = [2,4..42]
+
+Because of Haskell's lazyness, these lists can be infinite.
+
+> allEvens = [2,4..]
+
+Try evaluating `allEvens` in ghci.
+
+(CTRL+C will interrupt a running evaluation)
+
 ------
 List comprehensions and ranges
 ------
