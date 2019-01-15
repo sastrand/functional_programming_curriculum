@@ -67,7 +67,7 @@ over lists.
 > topR = [(1.0,0.0), (1.0,1.5), (1.0,3.0), (1.0,3.5)]
 > btmR = [(0.0,0.5), (0.0,2.0), (0.0,2.5), (0.0,4.0)]
 
-> wire = sum [ cartDist ((x1,y1), (x2,y2)) | (x1,y1) <- topR, (x2,y2) <- btmR ]
+> wire = sum [cartDist ((x1,y1), (x2,y2)) | (x1,y1) <- topR, (x2,y2) <- btmR]
 
 
 ------
@@ -88,12 +88,12 @@ Try evaluating `allEvens` in ghci.
 
 (CTRL+C will interrupt a running evaluation)
 
-Because ranges are a handy way to represent infinite lists, we'll
-also talk about a few ways to manage infinite lists. 
+Infinite lists are only so useful on their own. Here are a few
+functions to manage them.
 
 If we want just the first so many elements from a list, we can use `take`.
 
-> fiveEvens = take 5 [2,4..] 
+> fiveEvens = take 5 [2,4..]
 
 We can create a new infinite list by repeating a value
 
@@ -107,27 +107,42 @@ Or use `replicate` to repeat a value a set number of times:
 Exercises
 ------
 
-**. Using a list comprehension, write a function `areaCodes` that takes a list of
-    phone numbers in the format "123-456-7890" and returns a list of the area codes
-    as strings.
+01. Using a list comprehension, write a function `areaCodes` that takes a
+    list of phone numbers in the format "123-456-7890" and returns a list of
+    their area codes as strings.
 
     Here is some test data: 
 
 > phs = ["371-836-3310", "805-834-9912", "851-246-9844", "210-599-4050"]
 
-> areaCodes = [take 3 x | x <- phs]
+> areaCodes :: [[a]] -> [[a]]
+> areaCodes xs = [take 3 x | x <- xs]
 
-** Using a list comprehension and a range, write a function `unFizz` that
-   will return all the multiples of 5 that are not also multiples of 3 up 
-   to a given point.
+> prob1Test = areaCodes phs == ["371","805","851","210"]
+> prob1 = do
+>           putStrLn ("areaCodes phs = " ++ show (areaCodes phs))
+>           putStrLn ("Test = " ++ if prob1Test then "PASS" else "FAIL")
 
-   So `unFizz 20` should return: [5,10,20]
 
+02. Using a list comprehension and a range, write a function `unFizz` that
+    will return all the multiples of 5 that are not also multiples of 3 up 
+    to a given point.
+
+    So `unFizz 20` should return: [5,10,20]
+
+> unFizz :: Integral a => a -> [a]
 > unFizz n = [ x | x <- [1..n], x `mod` 5 == 0, x `mod` 3 /= 0 ]
 
-**. Using a list comprehension, write a function `radar`, that will take a set of
-    points and a reference point and return all the points that are within 4 units 
-    of distance from that point.
+> prob2Test = unFizz 20 == [5,10,20]
+> prob2 = do
+>           putStrLn ("unFizz 20 = " ++ show (unFizz 20))
+>           putStrLn ("Test = " ++ if prob2Test then "PASS" else "FAIL")
+
+03. Using a list comprehension, write a function `radar`, that will take a 
+    set of points and a reference point and return all the points that are 
+    within 4 units of distance from that point. Note: we can use the type 
+    signature to tell us that `radar` is a function that will take a list of 
+    tuples and a single tuple, and return a tuple. 
 
     Here is some test data you can use:
 
@@ -135,7 +150,13 @@ Exercises
 > otherBoats = [(-2.0,1.5),(-1,4.8),(1.2,3.7),(4.1,3.4),(5.9,5.0),(6.1,1.7),
 >               (7.3,8.5),(3.0,-1.5),(-1.1,-2.6)]
 
+> radar :: (Ord b, Floating b) => [(b, b)] -> (b, b) -> [(b, b)]
 > radar pnts ref = [ (x1,y1) | (x1,y1) <- pnts, cartDist ((x1,y1), ref) < 4]
+
+> prob3Test = radar otherBoats ourBoat == [(1.2,3.7),(4.1,3.4),(3.0,-1.5)]
+> prob3 = do
+>           putStrLn ("radar otherBoats ourBoat = " ++ show (radar otherBoats ourBoat))
+>           putStrLn ("Test = " ++ if prob3Test then "PASS" else "FAIL")
 
 ------
 Sources
