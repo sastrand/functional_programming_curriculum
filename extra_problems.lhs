@@ -83,4 +83,6 @@ prob11 = putStrLn ("findAllLarge [(1,2,3), (4,5,6)] = " ++ show (findAllLarge [(
 >            putStrLn ("quadEq 1 2 (-3) = " ++ show (quadEq 1 2 (-3)))
 >            putStrLn ("Test = " ++ if prob11Test then "PASS" else "FAIL")
 
-
+**. Import your instance of the `module_1_part1.lhs` file into this file, to 
+use your FizzBuzz function, and pass it the range that is every number 
+divisible by 3 from 1 to 100. Print the result.
