@@ -138,6 +138,7 @@ Exercises
 >           putStrLn ("unFizz 20 = " ++ show (unFizz 20))
 >           putStrLn ("Test = " ++ if prob2Test then "PASS" else "FAIL")
 
+
 03. Using a list comprehension, write a function `radar`, that will take a 
     set of points and a reference point and return all the points that are 
     within 4 units of distance from that point. Note: we can use the type 
