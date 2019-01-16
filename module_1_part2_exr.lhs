@@ -36,9 +36,9 @@ sub-setting some larger one but also by applying some operation to each element
 in the result, and this is what a comprehension provides.
 
 For example, if we want a set that is the square of every even, natural number 
-less than 10, we could describe the set:
+from 1 to 10, we could describe the set:
 
-    evenSquares = { x^x | x ∈ [1,2,3,...,10] ∧ x is even}
+    evenSquares = { x^x | x is an element of [1,2,3,...,10] and x is even}
 
 We can do exactly the same with a comprehension:
 
