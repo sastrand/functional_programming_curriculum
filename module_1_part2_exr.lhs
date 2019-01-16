@@ -141,12 +141,17 @@ comprehension.
 For your reference, each will make use of the Cartesian distance
 formula to find the shortest distance between two points (x1,y1), (x2,y2):
 
-> cartDist ((x1,y1), (x2,y2)) = sqrt( (x2-x1)^2 + (y2-y1)^2 )
+> cartDist (x1,y1) (x2,y2) = sqrt( (x2-x1)^2 + (y2-y1)^2 )
 
 
 03. Using a list comprehension, write a function `radar`, that will take a 
     set of points and a reference point and return all the points that are 
     within 4 units of distance from that point.
+
+    Note: `(Ord b, Floating b)` in the type signature tells us this function
+    takes a value that is an instance of the Floating typeclass that is also 
+    a member of the Ord typeclass. So, no irrational numbers here, because 
+    they can't be ordered.
 
     Here is some test data you can use:
 
@@ -154,7 +159,7 @@ formula to find the shortest distance between two points (x1,y1), (x2,y2):
 > otherBoats = [(-2.0,1.5),(-1,4.8),(1.2,3.7),(4.1,3.4),(5.9,5.0),(6.1,1.7),
 >               (7.3,8.5),(3.0,-1.5),(-1.1,-2.6)]
 
-> radar :: Floating b => [(b, b)] -> (b, b) -> [(b, b)]
+> radar :: (Ord b, Floating b) => [(b, b)] -> (b, b) -> [(b, b)]
 > radar pnts ref = undefined
 
 > prob3Test = radar otherBoats ourBoat == [(1.2,3.7),(4.1,3.4),(3.0,-1.5)]

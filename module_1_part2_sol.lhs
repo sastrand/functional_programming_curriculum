@@ -140,7 +140,7 @@ with a list comprehension. The following three fit this bill.
 and for your reference, each will make use of the Cartesian distance
 formula to find the shortest distance between two points (x1,y1), (x2,y2):
 
-> cartDist ((x1,y1), (x2,y2)) = sqrt( (x2-x1)^2 + (y2-y1)^2 )
+> cartDist (x1,y1) (x2,y2) = sqrt( (x2-x1)^2 + (y2-y1)^2 )
 
 
 
@@ -154,8 +154,8 @@ formula to find the shortest distance between two points (x1,y1), (x2,y2):
 > otherBoats = [(-2.0,1.5),(-1,4.8),(1.2,3.7),(4.1,3.4),(5.9,5.0),(6.1,1.7),
 >               (7.3,8.5),(3.0,-1.5),(-1.1,-2.6)]
 
-> radar :: Floating b => [(b, b)] -> (b, b) -> [(b, b)]
-> radar pnts ref = [ (x1,y1) | (x1,y1) <- pnts, cartDist ((x1,y1), ref) < 4]
+> radar :: (Ord b, Floating b) => [(b, b)] -> (b, b) -> [(b, b)]
+> radar pnts ref = [ (x1,y1) | (x1,y1) <- pnts, cartDist (x1,y1) ref < 4]
 
 > prob3Test = radar otherBoats ourBoat == [(1.2,3.7),(4.1,3.4),(3.0,-1.5)]
 > prob3 = do
@@ -187,13 +187,13 @@ formula to find the shortest distance between two points (x1,y1), (x2,y2):
 
     How much wire will it take to connect every ISP directly to every CDN? 
     
-> ispToCdn isps cdns = sum [cartDist ((x1,y1), (x2,y2)) | (x1,y1) <- isps, (x2,y2) <- cdns]
+> ispToCdn isps cdns = sum [cartDist (x1,y1) (x2,y2) | (x1,y1) <- isps, (x2,y2) <- cdns]
 
 
 05. How much wire will it take to connect every ISP directly to every other ISP 
     as well as directly to every CDN?
 
-> ispToisp isps = sum [cartDist ((x1,y1), (x2,y2)) | (x1,y1) <- isps, (x2,y2) <- isps]
+> ispToisp isps = sum [cartDist (x1,y1) (x2,y2) | (x1,y1) <- isps, (x2,y2) <- isps]
 
 > ispToAll = ispToCdn someISPs someCDNs + ispToisp someISPs
 
