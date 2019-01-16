@@ -150,8 +150,7 @@ formula to find the shortest distance between two points (x1,y1), (x2,y2):
 
     Note: `(Ord b, Floating b)` in the type signature tells us this function
     takes a value that is an instance of the Floating typeclass that is also 
-    a member of the Ord typeclass. So, no irrational numbers here, because 
-    they can't be ordered.
+    a member of the Ord typeclass. So, no irrationally located boats/planes.
 
     Here is some test data you can use:
 
