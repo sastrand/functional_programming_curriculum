@@ -134,9 +134,11 @@ with a list comprehension, but arguably you could implement the same
 solutions more clearly by filtering or mapping a helper function 
 over the input list.
 
-There are some problems that lend themselves more readily to a solution
-with a list comprehension. The following three fit this bill. 
-and for your reference, each will make use of the Cartesian distance
+While this is true for all list comprehensions, some problems, like 
+the following three, lend themselves more readily to a solution with a 
+comprehension.
+
+For your reference, each will make use of the Cartesian distance
 formula to find the shortest distance between two points (x1,y1), (x2,y2):
 
 > cartDist ((x1,y1), (x2,y2)) = sqrt( (x2-x1)^2 + (y2-y1)^2 )
