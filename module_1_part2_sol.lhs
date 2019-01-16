@@ -194,8 +194,13 @@ formula to find the shortest distance between two points (x1,y1), (x2,y2):
 > ispToAll = ispToCdn someISPs someCDNs + ispToisp someISPs
 
 
+06. If we only needed to connect every ISP to every other ISP, what would be a more
+    efficient arrangement of their endpoints?
 
+07. Given our current needs to connect every ISP to every other ISP as well as to each CDN, 
+    what would be a more efficient arrangement of all the endpoints involved?
 
+08. Time permitting, find some coordinates for your proposed arrangements and test them out.
 
 ------
 Sources
