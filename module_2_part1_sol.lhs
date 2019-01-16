@@ -120,33 +120,69 @@ is learning how this tool can solve different problems.
 Exercises
 ------
 
-**. Write a function, `firsts`, that takes a list of tuples and returns the 
-    first element from each one in a list. You can use pattern matching or a
-    comprehension for this.
+01. Use pattern matching to write a function, `firsts`, that takes a list of 
+    tuples and returns the first element from each one in a list.
 
-    Here's some test data:
+    Here's some data used in the unit tests:
 
 > phs = [("Ava","280-994-7832"), ("Bax","525-646-3563"), 
 >        ("Mel","629-692-4398"), ("Kai","839-560-0099")]
 
+> firsts :: [(a, b)] -> [a]
 > firsts [] = []
 > firsts (x:xs) = fst x : firsts xs
 
-**. Noticing the key-value pairs in the last question, maybe you get the
-    sense that we're making a dictionary. We are :-)
+> prob1Test = firsts phs == ["Ava","Bax","Mel","Kai"]
+> prob1 = do
+>           putStrLn ("unFizz 20 = " ++ show (firsts phs))
+>           putStrLn ("Test = " ++ if prob1Test then "PASS" else "FAIL")
 
-    Use pattern matching and guards to write a function that takes a key as a 
-    string and a list of tuples representing key-value pairs like those in 
-    `phs` and a key and returns the first key-value pair with a matching key. 
-    If the key isn't in the dictionary, return a tuple of empty strings.
 
-> lookup k [] = ("","")
+02. Noticing the key-value pairs in the last question, maybe you get the
+    sense that we're making a dictionary. Indeed, we are.
+
+    We'll see later how we can generalize this data structure to hold 
+    values of different types. For now, all our keys and values will be Strings.
+
+    Use pattern matching and guards to write a function that takes 
+    a list of tuples representing key-value pairs like those in 
+    `phs` and if the key is in the dictionary, returns its value and 
+    otherwise returns an empty string.
+
+> lookup k [] = ""
 > lookup k (kv:kvs)
->   | k == fst kv = kv
+>   | k == fst kv = snd kv
 >   | otherwise   = lookup k kvs
 
-**. Write a function `insert` to take a list of String key-value tuples and 
-    a new key-value tuple and add the new tuple to the front of the list.
+> prob2Test1 = lookup "Kai" phs == "839-560-0099"
+> prob2Test2 = lookup "Baz" phs == ""
+> prob2 = do
+>           putStrLn ("lookup \"Kai\" phs = " ++ show (lookup "Kai" phs))
+>           putStrLn ("lookup \"Baz\" phs = " ++ show (lookup "Baz" phs))
+>           putStrLn ("Test = " ++ if prob2Test1 && prob2Test2 then "PASS" else "FAIL")
+
+
+03. Write a function `delete` to take a list of key-value tuples and
+    a key and remove all instances of the tuple containing that key from the 
+    list.
+
+> delete :: Eq t => t -> [(t, b)] -> [(t, b)]
+> delete k [] = []
+> delete k (kv:kvs)
+>   | k == fst kv = delete k kvs
+>   | otherwise   = kv : delete k kvs
+
+> prob3Test1 = delete "Baz" phs == phs
+> prob3Test2 = delete "Kai" phs == init phs
+> prob3 = do
+>           putStrLn ("delete \"Baz\" phs = " ++ show (delete "Baz" phs))
+>           putStrLn ("delete \"Kai\" phs = " ++ show (delete "Kai" phs))
+>           putStrLn ("Test = " ++ if prob3Test1 && prob3Test2 then "PASS" else "FAIL")
+
+04. Write a function `insert` to take a list of kv-pairs and a new kv-pair. 
+    If the key of the new kv-pair is already in the list, overwrite the old
+    kv-pair with the new kv-pair, otherwise add the new kv-pair to the head
+    of the list.
 
     For example, insert ("Abe","713-539-4825") to phs, should produce:
 
@@ -154,14 +190,19 @@ Exercises
 >         ("Bax","525-646-3563"), ("Mel","629-692-4398"),
 >         ("Kai","839-560-0099")]
 
-> insert kv kvs = kv : kvs
+    And insert ("Bax","000-000-0000") to phs, should produce something like:
 
-**. Write a function `delete` to take a list of String key-value tuples and
-    a key and remove all instances of the tuple containing that key from the 
-    list.
+> phs'' = [("Bax","000-000-0000"), ("Ava","280-994-7832"),  
+>         ("Mel","629-692-4398"), ("Kai","839-560-0099")]
 
-> delete k [] = []
-> delete k (kv:kvs)
->   | k == fst kv = delete k kvs
->   | otherwise   = kv : delete k kvs
+> insert kv kvs = kv : delete (fst kv) kvs
+
+> prob4Test1 = insert ("Abe","713-539-4825") phs == phs'
+> prob4Test2 = insert ("Bax","000-000-0000") phs == phs''
+> prob4 = do
+>           putStrLn ("insert (\"Abe\",\"713-539-4825\") phs = " ++ show (insert ("Abe","713-539-4825") phs))
+>           putStrLn ("insert (\"Bax\",\"000-000-0000\") phs = " ++ show (insert ("Bax","000-000-0000") phs))
+>           putStrLn ("Test = " ++ if prob4Test1 && prob4Test2 then "PASS" else "FAIL")
+
+**. 
 
