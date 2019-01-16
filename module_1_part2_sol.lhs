@@ -18,9 +18,13 @@ and the Axiom of Comprehensions, which can be summarized:
     Given a set A and a predicate P, there is a subset of A whose members are 
     those elements in A that satisfy P.
 
-This view that all sets can be built by sub-setting a larger set with respect to some predicate allowed for a new notion of set theory that avoids Russel's Paradox.
+This view that all sets can be built by sub-setting a larger set with respect 
+to some predicate allowed for a new notion of set theory that avoids Russell's Paradox.
 (The problem that you can define a set as containing every element that is not 
-contained in that set.) In this alternative view, every set is not the result of just describing what things are in it, but the result of applying some predicate to the set of all things and then only keeping the values that return true. [1]
+contained in that set.) In this alternative view, every set is not the result 
+of just describing what things are in it, but the result of applying some 
+predicate to the set of all things and then only keeping the values that 
+return true. [1]
 
 We can build sets this way using the filter function we saw in the last lab.
 But, in programming and in set notation, we may want to build a set not just by
@@ -30,11 +34,11 @@ in the result, and this is what a comprehension provides.
 For example, if we want a set that is the square of every even, natural number 
 less than 10, we could describe the set:
 
-    tenSquares = { x^x | x ∈ [1,2,3,...,10] ∧ x is even}
+    evenSquares = { x^x | x ∈ [1,2,3,...,10] ∧ x is even}
 
 We can do exactly the same with a comprehension:
 
-> tenSquares = [ x^x | x <- [1..10], even x ]
+> evenSquares = [ x^x | x <- [1..10], even x ]
 
 This works over multiple variables. If we want the cross product of two
 lists, we can write a list comprehension to do it:
@@ -51,24 +55,6 @@ In Haskell the sets we draw from are called *generators* and the predicates
 applied to them are called *guards*. So the general format is:
 
 [ <function application> | <generator(s)>, <guard(s)> ]
-
-Say we're given two sets of points representing the placement of rotors in a
-device similar to an Enigma Machine. Every rotor in the first set must be 
-directly connected to every rotor in the second set. How much wire would be 
-needed to create these connections?
-
-Using the Cartesian distance formula to find the shortest distance between two points (x1,y1), (x2,y2):
-
-> cartDist ((x1,y1), (x2,y2)) = sqrt( (x2-x1)^2 + (y2-y1)^2 )
-
-we can model this solution using a list comprehension and the `sum` function
-over lists.
-
-> topR = [(1.0,0.0), (1.0,1.5), (1.0,3.0), (1.0,3.5)]
-> btmR = [(0.0,0.5), (0.0,2.0), (0.0,2.5), (0.0,4.0)]
-
-> wire = sum [cartDist ((x1,y1), (x2,y2)) | (x1,y1) <- topR, (x2,y2) <- btmR]
-
 
 ------
 Ranges
@@ -139,11 +125,24 @@ Exercises
 >           putStrLn ("Test = " ++ if prob2Test then "PASS" else "FAIL")
 
 
+
+In problems 1 and 2 you can see how to subset another set 
+with a list comprehension, but arguably you could implement the same
+solutions more clearly by filtering or mapping a helper function 
+over the input list.
+
+There are some problems that lend themselves more readily to a solution
+with a list comprehension. The following three fit this bill. 
+and for your reference, each will make use of the Cartesian distance
+formula to find the shortest distance between two points (x1,y1), (x2,y2):
+
+> cartDist ((x1,y1), (x2,y2)) = sqrt( (x2-x1)^2 + (y2-y1)^2 )
+
+
+
 03. Using a list comprehension, write a function `radar`, that will take a 
     set of points and a reference point and return all the points that are 
-    within 4 units of distance from that point. Note: we can use the type 
-    signature to tell us that `radar` is a function that will take a list of 
-    tuples and a single tuple, and return a tuple. 
+    within 4 units of distance from that point.
 
     Here is some test data you can use:
 
@@ -158,6 +157,45 @@ Exercises
 > prob3 = do
 >           putStrLn ("radar otherBoats ourBoat = " ++ show (radar otherBoats ourBoat))
 >           putStrLn ("Test = " ++ if prob3Test then "PASS" else "FAIL")
+
+
+
+04. ISPs to CDNs
+
+    An Internet exchange point (IXP) is a part of Internet infrastructure where
+    multiple service providers (ISPs) connect an endpoint of their network
+    to an endpoint of every other ISP's network as well as to special servers 
+    that store copies of often-demanded content. These special servers are the 
+    endpoints of content delivery networks (CDNs) that do nothing but serve data.
+
+    Netflix developed the first CDNs to store copies of all their content near major
+    IXPs and other companies that distribute a lot of data followed.
+
+    In an given IXP, there will be multiple ISPs like Comcast, AT&T, and Verizon
+    that each want to connect to every CDN, like those maintained by Netflix, 
+    Google, and Facebook, as well as to every other ISP.
+
+    Say we line up all the ISPs in a row and all the CDNs in another row and 
+    represent their locations on a 2D plane with Cartesian coordinates.
+
+> someISPs = [(1.0,0.0), (1.0,1.5), (1.0,3.0), (1.0,3.5)]
+> someCDNs = [(0.0,0.5), (0.0,2.0), (0.0,2.5), (0.0,4.0), (0.0,5.5)]
+
+    How much wire will it take to connect every ISP directly to every CDN? 
+    
+> ispToCdn isps cdns = sum [cartDist ((x1,y1), (x2,y2)) | (x1,y1) <- isps, (x2,y2) <- cdns]
+
+
+05. How much wire will it take to connect every ISP directly to every other ISP 
+    as well as directly to every CDN?
+
+> ispToisp isps = sum [cartDist ((x1,y1), (x2,y2)) | (x1,y1) <- isps, (x2,y2) <- isps]
+
+> ispToAll = ispToCdn someISPs someCDNs + ispToisp someISPs
+
+
+
+
 
 ------
 Sources
