@@ -60,6 +60,9 @@ applied to them are called *guards*. So the general format is:
 
 [ <function application> | <generator(s)>, <guard(s)> ]
 
+n which there can be any number of generators and guards. They can be
+in any order and will be evaluated from left to right.
+
 ------
 Ranges
 ------
