@@ -140,8 +140,7 @@ Exercises
     numbers, like non-terminating reals or irrational numbers, that can't be compared.
 
 > factorial :: (Ord p, Num p) => p -> p
-> factorial 1 = 1
-> factorial n = n * factorial (n-1)
+> factorial = undefined
 
 > prob1Test1 = factorial 1 == 1
 > prob1Test2 = factorial 6 == 720
@@ -169,10 +168,7 @@ Exercises
 >        ("Mel","629-692-4398"), ("Kai","839-560-0099")]
 
 > lookup :: Eq t => t -> [(t, p)] -> p
-> lookup k [] = error "no key"
-> lookup k (kv:kvs)
->   | k == fst kv = snd kv
->   | otherwise   = lookup k kvs
+> lookup = undefined
 
 > prob2Test1 = lookup "Kai" phs == "839-560-0099"
 > prob2Test2 = catch (print $ lookup "Baz" phs) handler
@@ -193,10 +189,7 @@ Exercises
     list.
 
 > delete :: Eq t => t -> [(t, b)] -> [(t, b)]
-> delete k [] = []
-> delete k (kv:kvs)
->   | k == fst kv = delete k kvs
->   | otherwise   = kv : delete k kvs
+> delete = undefined
 
 > prob3Test1 = delete "Baz" phs == phs
 > prob3Test2 = delete "Kai" phs == init phs
@@ -223,7 +216,7 @@ Exercises
 > phs'' = [("Bax","000-000-0000"), ("Ava","280-994-7832"),  
 >         ("Mel","629-692-4398"), ("Kai","839-560-0099")]
 
-> insert kv kvs = kv : delete (fst kv) kvs
+> insert = undefined
 
 > prob4Test1 = insert ("Abe","713-539-4825") phs == phs'
 > prob4Test2 = insert ("Bax","000-000-0000") phs == phs''
@@ -232,16 +225,23 @@ Exercises
 >           putStrLn ("insert (\"Bax\",\"000-000-0000\") phs = " ++ show (insert ("Bax","000-000-0000") phs))
 >           putStrLn ("Test = " ++ if prob4Test1 && prob4Test2 then "PASS" else "FAIL")
 
+
+
+
 05. What is the time asymptotic complexity for each of these operations? 
+
+  [ FILL IN HERE ]
+
     
 06. With a hash table, we could get their time down to O(1) for each of 
     these operations. Without a hash table, how could we improve their 
     efficiency?
 
+  [ FILL IN HERE ]
 
 ------
 Sources
 ------
 
-For catching errors in problem 2's tests: 
+For catching errors in `prob2Test2`: 
 https://stackoverflow.com/questions/6009384/exception-handling-in-haskell
