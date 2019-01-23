@@ -8,6 +8,8 @@ List comprehensions and ranges
 Name:
 ------
 
+     wget -np -nH --cut-dirs 2  http://web.cecs.pdx.edu/~sastrand/module_1_part2.lhs
+
 ------
 List comprehensions
 ------
