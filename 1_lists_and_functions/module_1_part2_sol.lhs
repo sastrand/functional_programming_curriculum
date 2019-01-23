@@ -165,7 +165,6 @@ formula to find the shortest distance between two points (x1,y1), (x2,y2):
 >           putStrLn ("Test = " ++ if prob3Test then "PASS" else "FAIL")
 
 
-
 04. ISPs to CDNs
 
     An Internet exchange point (IXP) is a part of Internet infrastructure where
@@ -187,26 +186,51 @@ formula to find the shortest distance between two points (x1,y1), (x2,y2):
 > someISPs = [(1.0,0.0), (1.0,1.5), (1.0,3.0), (1.0,3.5)]
 > someCDNs = [(0.0,0.5), (0.0,2.0), (0.0,2.5), (0.0,4.0), (0.0,5.5)]
 
-    How much wire will it take to connect every ISP directly to every CDN? 
-    
+    Write a Haskell function to determine much wire will it take to connect every ISP 
+    directly to every CDN? 
+
 > ispToCdn isps cdns = sum [cartDist (x1,y1) (x2,y2) | (x1,y1) <- isps, (x2,y2) <- cdns]
-> ispToCdn' isps cdns = sum [cartDist p1 p2 | p1 <- isps, p2 <- cdns]
 
-05. How much wire will it take to connect every ISP directly to every other ISP 
-    as well as directly to every CDN?
 
-> ispToisp isps = sum [cartDist (x1,y1) (x2,y2) | (x1,y1) <- isps, (x2,y2) <- isps]
+05. Write a Haskell function to determine how much cable will it take to connect 
+    every ISP directly to every CDN.
+
+    We'll assume all connections are made with fully duplex cables, that can
+    carry data in both directions.
+
+> ispToisp isps = sum [cartDist (x1,y1) (x2,y2) | (x1,y1) <- isps, (x2,y2) <- isps] / 2
 
 > ispToAll = ispToCdn someISPs someCDNs + ispToisp someISPs
 
 
-06. If we only needed to connect every ISP to every other ISP, what would be a more
-    efficient arrangement of their endpoints?
+06. If we only needed to connect every ISP to every other ISP and their servers are 1 
+    unit of distance wide and deep, what would be a more efficient arrangement of 
+    their endpoints?
 
-07. Given our current needs to connect every ISP to every other ISP as well as to each CDN, 
-    what would be a more efficient arrangement of all the endpoints involved?
+    In the case of four servers, arranging them in a cross shape would be more efficient.
 
-08. Time permitting, find some coordinates for your proposed arrangements and test them out.
+    Eg.
+     
+          +-+
+          |x|
+        +-+-+-+
+        |x| |x|
+        +-+-+-+
+          |x|
+          +-+
+
+07. Time permitting, plot coordinates for your proposed arrangements and test them out
+    with the function you wrote for 
+
+    In this case, they could have endpoints:
+
+> rearrangedISPs = [(0.0,0.0), (0.5,0.5), (0.0,1.0), (-0.5,0.5)]
+
+> rearrangedCable = ispToisp rearrangedISPs
+
+Where our original arrangement would take 12 units of cable, rearranging the servers
+into a circle-like arrangment requires only 4.8 units of cable.
+
 
 ------
 Sources
