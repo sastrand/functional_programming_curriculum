@@ -135,3 +135,22 @@ or in a solution that includes the `zipWith` function.
 > prob1 = do
 >           putStrLn ("unFizz 20 = " ++ show (firsts phs))
 >           putStrLn ("Test = " ++ if prob1Test then "PASS" else "FAIL")
+
+--------
+blah
+--------
+**. Write a function `maxElem` that will take a list of Ints from -999 to 999
+    and return the largest element in that list. If the list is empty, return -1000. 
+
+> maxElem [] = -1000
+> maxElem (x:xs) = max x (maxElem xs)
+
+
+**. Given two linked lists, check to see if one is a strict subset of the other.
+
+    That is, every element in A must be in B and A may not equal B.
+
+> strictSubset [] [] = False
+> strictSubset xs ys 
+>   | sort xs == sort ys = False 
+>   | otherwise          = subset xs ys
