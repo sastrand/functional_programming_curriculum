@@ -86,3 +86,52 @@ prob11 = putStrLn ("findAllLarge [(1,2,3), (4,5,6)] = " ++ show (findAllLarge [(
 **. Import your instance of the `module_1_part1.lhs` file into this file, to 
 use your FizzBuzz function, and pass it the range that is every number 
 divisible by 3 from 1 to 100. Print the result.
+
+----------
+2019-01-16
+----------
+
+**. Using these functions on lists, write the following functions over sets, where
+    sets are represented as lists.
+
+> union as bs = dupOut (as ++ bs)
+
+> intersection as bs = [x | x <- as, x `elem` bs, x `elem` as]
+
+------
+Linear Algebra Library
+------
+
+In this module, let's start building a linear algebra library.
+
+**. Define a function `dotProduct` that takes two lists of numbers of the same
+    length and returns their dot product.
+
+You could do this in many ways, including with guards and pattern matching
+or in a solution that includes the `zipWith` function.
+
+> dotProduct [] [] = 0
+> dotProduct (v1:v1s) (v2:v2s) = (v1*v2) + dotProduct v1s v2s
+
+> dotProduct' v1 v2 = sum $ zipWith (*) v1 v2
+
+**. Define a function `matrixMult` that performs matrix multiplication over two 
+    matrices represented as lists of lists.
+
+
+01. Use pattern matching to write a function, `firsts`, that takes a list of 
+    tuples and returns the first element from each one in a list.
+
+    Here's some data used in the unit tests:
+
+> phs = [("Ava","280-994-7832"), ("Bax","525-646-3563"), 
+>        ("Mel","629-692-4398"), ("Kai","839-560-0099")]
+
+> firsts :: [(a, b)] -> [a]
+> firsts [] = []
+> firsts (x:xs) = fst x : firsts xs
+
+> prob1Test = firsts phs == ["Ava","Bax","Mel","Kai"]
+> prob1 = do
+>           putStrLn ("unFizz 20 = " ++ show (firsts phs))
+>           putStrLn ("Test = " ++ if prob1Test then "PASS" else "FAIL")

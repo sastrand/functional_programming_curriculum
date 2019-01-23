@@ -8,6 +8,10 @@ Part   1: Guards and Pattern Matching
 Name:
 ------
 
+    wget -np -nH --cut-dirs 2  http://web.cecs.pdx.edu/~sastrand/module_2_part1.lhs
+
+------
+
 In this module, we'll see some new syntax in the way of guards
 for expressing conditionals and make our first foray into recursion 
 with pattern matching.
@@ -18,6 +22,7 @@ First off, some namespace management
 
 > import Prelude hiding (lookup)
 > import Data.Char
+> import Data.List hiding (insert, delete, lookup)
 
 ------
 Guards
@@ -84,6 +89,11 @@ simple (in that order). We could put those qualities in a list directly:
 Or we could start with an empty list and cons each quality onto the front.
 
 > goodAlgs' = "correct" : "efficient" : "simple" : []
+
+> goodAlgs'' = "correct" : ["efficient", "simple"] 
+
+> someAlgs = "correct" : []
+
  
 The result is the same.
 
@@ -116,43 +126,39 @@ Take a moment to make sure you're comfortable with what's going on with these
 recursive functions. This is the big leap in thinking. Everything after this
 is learning how this tool can solve different problems.
 
+
 ------
 Exercises
 ------
 
-01. Use pattern matching to write a function, `firsts`, that takes a list of 
-    tuples and returns the first element from each one in a list.
+01. Write a function `factorial` that takes an Integral value n and calculates
+    its factorial. We'll see next week there's a higher-order function that will
+    allow you to do this over a range, but for now, try recursion with pattern 
+    matching.
+
+    For this function, try some different inputs to determine if it's working
+    correctly.
+
+> factorial :: Num p => p -> p
+> factorial = undefined
+
+
+02. Use pattern matching and guards to write a function, `lookup` that takes 
+    a list of tuples representing key-value pairs like those in 
+    `phs` below and a String key value. If the key is the first element of any
+    key-value tuple in the list, return its corresponding value. Otherwise return an empty string.
+
+    We'll see later how we can generalize this data structure to hold 
+    values of different types. For now, all our keys and values will 
+    be Strings.
 
     Here's some data used in the unit tests:
 
 > phs = [("Ava","280-994-7832"), ("Bax","525-646-3563"), 
 >        ("Mel","629-692-4398"), ("Kai","839-560-0099")]
 
-> firsts :: [(a, b)] -> [a]
-> firsts [] = []
-> firsts (x:xs) = fst x : firsts xs
-
-> prob1Test = firsts phs == ["Ava","Bax","Mel","Kai"]
-> prob1 = do
->           putStrLn ("unFizz 20 = " ++ show (firsts phs))
->           putStrLn ("Test = " ++ if prob1Test then "PASS" else "FAIL")
-
-
-02. Noticing the key-value pairs in the last question, maybe you get the
-    sense that we're making a dictionary. Indeed, we are.
-
-    We'll see later how we can generalize this data structure to hold 
-    values of different types. For now, all our keys and values will be Strings.
-
-    Use pattern matching and guards to write a function that takes 
-    a list of tuples representing key-value pairs like those in 
-    `phs` and if the key is in the dictionary, returns its value and 
-    otherwise returns an empty string.
-
-> lookup k [] = ""
-> lookup k (kv:kvs)
->   | k == fst kv = snd kv
->   | otherwise   = lookup k kvs
+> lookup :: Eq t => t -> [(t, [Char])] -> [Char]
+> lookup = undefined
 
 > prob2Test1 = lookup "Kai" phs == "839-560-0099"
 > prob2Test2 = lookup "Baz" phs == ""
@@ -167,10 +173,7 @@ Exercises
     list.
 
 > delete :: Eq t => t -> [(t, b)] -> [(t, b)]
-> delete k [] = []
-> delete k (kv:kvs)
->   | k == fst kv = delete k kvs
->   | otherwise   = kv : delete k kvs
+> delete = undefined
 
 > prob3Test1 = delete "Baz" phs == phs
 > prob3Test2 = delete "Kai" phs == init phs
@@ -195,7 +198,8 @@ Exercises
 > phs'' = [("Bax","000-000-0000"), ("Ava","280-994-7832"),  
 >         ("Mel","629-692-4398"), ("Kai","839-560-0099")]
 
-> insert kv kvs = kv : delete (fst kv) kvs
+> insert :: Eq t => (t, b) -> [(t, b)] -> [(t, b)]
+> insert = undefined
 
 > prob4Test1 = insert ("Abe","713-539-4825") phs == phs'
 > prob4Test2 = insert ("Bax","000-000-0000") phs == phs''
@@ -204,5 +208,10 @@ Exercises
 >           putStrLn ("insert (\"Bax\",\"000-000-0000\") phs = " ++ show (insert ("Bax","000-000-0000") phs))
 >           putStrLn ("Test = " ++ if prob4Test1 && prob4Test2 then "PASS" else "FAIL")
 
-**. 
+
+05. What is the time asymptotic complexity for each of these operations? 
+    
+06. With a hash table, we could get their time down to O(1) for each of 
+    these operations. Without a hash table, how could we improve their 
+    efficiency?
 

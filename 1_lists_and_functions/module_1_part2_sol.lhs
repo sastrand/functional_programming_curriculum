@@ -157,6 +157,8 @@ formula to find the shortest distance between two points (x1,y1), (x2,y2):
 > radar :: (Ord b, Floating b) => [(b, b)] -> (b, b) -> [(b, b)]
 > radar pnts ref = [ (x1,y1) | (x1,y1) <- pnts, cartDist (x1,y1) ref < 4]
 
+> radar' pnts ref = [ x | x <- pnts, cartDist ref x <= 4]
+
 > prob3Test = radar otherBoats ourBoat == [(1.2,3.7),(4.1,3.4),(3.0,-1.5)]
 > prob3 = do
 >           putStrLn ("radar otherBoats ourBoat = " ++ show (radar otherBoats ourBoat))
@@ -188,7 +190,7 @@ formula to find the shortest distance between two points (x1,y1), (x2,y2):
     How much wire will it take to connect every ISP directly to every CDN? 
     
 > ispToCdn isps cdns = sum [cartDist (x1,y1) (x2,y2) | (x1,y1) <- isps, (x2,y2) <- cdns]
-
+> ispToCdn' isps cdns = sum [cartDist p1 p2 | p1 <- isps, p2 <- cdns]
 
 05. How much wire will it take to connect every ISP directly to every other ISP 
     as well as directly to every CDN?
