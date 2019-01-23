@@ -70,6 +70,7 @@ better than mine.
     list. Write a function `insertSecondLast` to do this. In the case of an empty 
     list, return a list containing just the argument. 
 
+> insertSecondLast :: a -> [a] -> [a]
 > insertSecondLast x []     = [x]
 > insertSecondLast x (a:[]) = x:a:[]
 > insertSecondLast x (a:b:xs) = a : insertSecondLast x (b:xs) 
@@ -93,6 +94,7 @@ better than mine.
     Write a function `insertSorted` that inserts an element into a pre-sorted list
     in O(n) time and returns a list that is also sorted.
 
+> insertSorted :: Ord t => t -> [t] -> [t]
 > insertSorted x [] = [x]
 > insertSorted x (a:xs) 
 >   | x <= a = x : a : xs
