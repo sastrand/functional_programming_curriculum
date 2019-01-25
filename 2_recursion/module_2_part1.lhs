@@ -216,6 +216,7 @@ Exercises
 > phs'' = [("Bax","000-000-0000"), ("Ava","280-994-7832"),  
 >         ("Mel","629-692-4398"), ("Kai","839-560-0099")]
 
+> insert :: Eq t => (t, b) -> [(t, b)] -> [(t, b)]
 > insert = undefined
 
 > prob4Test1 = insert ("Abe","713-539-4825") phs == phs'
