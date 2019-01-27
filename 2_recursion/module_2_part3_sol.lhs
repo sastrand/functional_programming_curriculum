@@ -10,7 +10,7 @@ Name:
 
 To download this document directly
 
-    wget -np -nH --cut-dirs 2  http://web.cecs.pdx.edu/~sastrand/intro_demo.lhs
+    wget -np -nH --cut-dirs 2  http://web.cecs.pdx.edu/~sastrand/module_2_part3.lhs
 
 You can find more info on `wget` and what these flags do at note [1].
 
