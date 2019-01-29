@@ -218,7 +218,7 @@ implementations as tail recursive optimizations.
 Exercises
 ------
 
-**. The following Python function exhaustively searches a list for one element.
+01. The following Python function exhaustively searches a list for one element.
 
     def ex_search(n, xs):
       for x in xs:
@@ -228,25 +228,22 @@ Exercises
     
     Write a function in Haskell to do the same work:
 
-
+> exhaustiveSearch :: Eq t => t -> [t] -> Bool  
 > exhaustiveSearch n [] = False
 > exhaustiveSearch n (x:xs)
 >   | n == x    = True
 >   | otherwise = False || exhaustiveSearch n xs
 
-**. The following Python takes a positive integer and returns its binary
-    representation as a list of 1s and 0s. [1]
 
-    def to_bin(n):
-      ret = []
-      while n > 0:
-        ret.append(n % 2)
-        n = n // 2
-        ret.reverse()
-      return ret
+02. One could approximate the base-2 log of a number by counting how many times
+    it can be divided by 2 with its remainder disregarded until the result of 
+    that division is 1.
 
-    Write a function in Haskell, toBin, to do the same work:
+    Write a function `floorLog2` to do this. 
 
+> floorLog2 :: (Num p, Integral t) => t -> p
+> floorLog2 1 = 0
+> floorLog2 n = 1 + floorLog2(n `div` 2)
 
 ------
 Aside

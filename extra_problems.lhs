@@ -154,3 +154,22 @@ blah
 > strictSubset xs ys 
 >   | sort xs == sort ys = False 
 >   | otherwise          = subset xs ys
+
+-- 20190129
+
+
+**. The following Python takes a positive integer and returns its binary
+    representation as a list of 1s and 0s. [1]
+
+    def to_bin(n):
+      ret = []
+      while n > 0:
+        ret.append(n % 2)
+        n = n // 2 
+      ret.reverse()
+      return ret
+
+    Write a function in Haskell, toBin, to do the same work:
+
+> toBin 0 = 0
+> toBin n = toBin $ n `mod` 2
