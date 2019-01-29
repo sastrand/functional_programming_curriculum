@@ -226,7 +226,7 @@ Exercises
           return True
       return False
     
-    Write a function in Haskell to do the same work:
+    Write a function, `exhaustiveSearch`, in Haskell to do the same work:
 
 > exhaustiveSearch :: Eq t => t -> [t] -> Bool  
 > exhaustiveSearch n [] = False
@@ -234,6 +234,16 @@ Exercises
 >   | n == x    = True
 >   | otherwise = False || exhaustiveSearch n xs
 
+
+> prob1Test1 = exhaustiveSearch 4 [1,7,2,5] == False
+> prob1Test2 = exhaustiveSearch 'l' "hello" == True
+> prob1 = do
+>         putStrLn ("exhaustiveSearch 4 [1,7,2,5] = " ++ show 
+>           (exhaustiveSearch 4 [1,7,2,5]))
+>         putStrLn ("exhaustiveSearch \'l\' \"hello\" = " ++ show
+>           (exhaustiveSearch 'l' "hello"))
+>         putStrLn ("Test = " ++ if prob1Test1 && prob1Test2 then "PASS" 
+>           else "FAIL")
 
 02. One could approximate the base-2 log of a number by counting how many times
     it can be divided by 2 with its remainder disregarded until the result of 
@@ -244,6 +254,14 @@ Exercises
 > floorLog2 :: (Num p, Integral t) => t -> p
 > floorLog2 1 = 0
 > floorLog2 n = 1 + floorLog2(n `div` 2)
+
+ prob2Test1 = floorLog2 32 == 5
+ prob2Test2 = floorLog2 256 == 8
+ prob2 = do
+           putStrLn ("floorLog2 32" ++ show(floorLog2 32)
+          putStrLn ("floorLog2 256" ++ show(floorLog2 32)
+           putStrLn ("Test = " ++ if prob1Test1 && prob1Test2 then "PASS" 
+             else "FAIL")
 
 ------
 Aside
