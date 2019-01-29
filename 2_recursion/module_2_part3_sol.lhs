@@ -245,6 +245,7 @@ Exercises
 >         putStrLn ("Test = " ++ if prob1Test1 && prob1Test2 then "PASS" 
 >           else "FAIL")
 
+
 02. One could approximate the base-2 log of a number by counting how many times
     it can be divided by 2 with its remainder disregarded until the result of 
     that division is 1.
@@ -255,13 +256,14 @@ Exercises
 > floorLog2 1 = 0
 > floorLog2 n = 1 + floorLog2(n `div` 2)
 
- prob2Test1 = floorLog2 32 == 5
- prob2Test2 = floorLog2 256 == 8
- prob2 = do
-           putStrLn ("floorLog2 32" ++ show(floorLog2 32)
-          putStrLn ("floorLog2 256" ++ show(floorLog2 32)
-           putStrLn ("Test = " ++ if prob1Test1 && prob1Test2 then "PASS" 
-             else "FAIL")
+> prob2Test1 = floorLog2 32 == 5
+> prob2Test2 = floorLog2 256 == 8
+> prob2 = do
+>          putStrLn ("floorLog2 32" ++ show(floorLog2 32))
+>          putStrLn ("floorLog2 256" ++ show(floorLog2 32)
+>          putStrLn ("Test = " ++ if prob1Test1 && prob1Test2 then "PASS" 
+>            else "FAIL")
+
 
 ------
 Aside
