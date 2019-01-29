@@ -256,7 +256,7 @@ Exercises
 > prob2Test2 = floorLog2 256 == 8
 > prob2 = do
 >          putStrLn ("floorLog2 32" ++ show(floorLog2 32))
->          putStrLn ("floorLog2 256" ++ show(floorLog2 32)
+>          putStrLn ("floorLog2 256" ++ show(floorLog2 32))
 >          putStrLn ("Test = " ++ if prob1Test1 && prob1Test2 then "PASS" 
 >            else "FAIL")
 
