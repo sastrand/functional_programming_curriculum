@@ -129,13 +129,13 @@ values--and having fewer variables means there is less opportunity for
 programmer error and the code tends to be more readable.
 
 Unfortunately, implemented literally, recursion comes at a significant
-performance cost. In the `fact` and `rev` functions above, we make n recursive
+performance cost. In the `fact` and `zipAdd` functions above, we make n recursive
 calls for an input of size n. If each of these calls is given a full stack
 frame, as one might expect it would, our function will require O(n) space on 
 the stack.
 
 The iterative implementation of `fact` requires O(1) space and while the
-iterative implementation of `rev` uses O(n) space, we could improve this if we
+iterative implementation of `zipAdd` uses O(n) space, we could improve this if we
 were allowed to modify the input list. In both cases, we have no need for more 
 than one stack frame.
 
