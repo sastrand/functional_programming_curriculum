@@ -10,7 +10,7 @@ Part   3: Head and Tail Recursion
 Name:
 ------
 
-    wget -np -nH --cut-dirs 2  http://web.cecs.pdx.edu/~sastrand/module_2_part2.lhs
+    wget -np -nH --cut-dirs 2  http://web.cecs.pdx.edu/~sastrand/module_2_part3.lhs
 
 ------
 Recursion
