@@ -49,8 +49,8 @@ Tail recursive:
     Without using the `reverse`, write a head-recursive function in Haskell, 
     toBin, to do the same work:
 
-> toBin 0 = []
-> toBin n = toBin (n `div` 2) ++ [(n `mod` 2)]
+> toBin :: Integral a => a -> [a]
+> toBin = undefined
 
 > prob1Test = toBin 42 == [1,0,1,0,1,0]
 > prob1 = do
@@ -62,13 +62,14 @@ Tail recursive:
     return the hex equivalent of that number, write a new function, `toHex`
     that will create the hexadecimal string of a positive base-10 integer.
 
+> toHexChar :: Int -> Char
 > toHexChar d
 >   | d < 0 || d > 15 = error "nope"
 >   | d < 10          = head $ show d
 >   | otherwise       = "ABCDEF"!!(d-10)
 
-> toHex 0 = []
-> toHex n = toHex (n `div` 16) ++ [toHexChar (n `mod` 16)]
+> toHex :: Int -> [Char]
+> toHex = undefined
 
 > prob2Test = toHex 49374 == "C0DE"
 > prob2 = do
@@ -79,8 +80,8 @@ Tail recursive:
 03. Write a tail recursive function, fromBin, that will take a list of 1s and 0s 
     and convert that list into the base-10 integer it represents.
 
-> fromBin [] = 0
-> fromBin (x:xs) = (2^(length(x:xs)-1) * x) + fromBin xs 
+> fromBin :: Num p => [p] -> p
+> fromBin = undefined
 
 > prob3Test = fromBin [1,0,1,0,1,0] == 42
 > prob3 = do
