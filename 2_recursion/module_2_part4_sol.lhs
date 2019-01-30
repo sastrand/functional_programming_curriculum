@@ -35,7 +35,7 @@ Tail recursive:
 
 ------
 
-**. The following Python function takes a positive integer and returns its 
+01. The following Python function takes a positive integer and returns its 
     binary representation as a list of 1s and 0s.
 
     def to_bin(n):
@@ -57,7 +57,8 @@ Tail recursive:
 >          putStrLn ("toBin 42 = " ++ show(toBin 42))
 >          putStrLn ("Test = " ++ if prob1Test then "PASS" else "FAIL")
 
-**. Given the following function that will take a number between 0 and 15 and
+
+02. Given the following function that will take a number between 0 and 15 and
     return the hex equivalent of that number, write a new function, `toHex`
     that will create the hexadecimal string of a positive base-10 integer.
 
@@ -74,46 +75,15 @@ Tail recursive:
 >         putStrLn ("toHex 49374 = " ++ show(toHex 49374))
 >         putStrLn ("Test = " ++ if prob2Test then "PASS" else "FAIL")
 
-**. Write a function, fromBin, that will take a list of 1s and 0s and
+
+03. Write a function, fromBin, that will take a list of 1s and 0s and
     convert that list into the base-10 integer it represents.
 
 > fromBin [] = 0
 > fromBin (x:xs) = (2^(length(x:xs)-1) * x) + fromBin xs 
 
-**. Write a function, fromHexChar, that will take a hex character 0-F and 
-    convert it into a base-10 Integral value.
-
-    To do this, you may find the Prelude function `elem` helpful. To interpret
-    its type signature, know that the only foldable type we've seen is a list.
-
-        elem :: (Eq a, Foldable t) => a -> t a -> Bool
-
-    Also, from the Data.Char package:
-
-        digitToInt :: Char -> Int        
-
-> fromHexChar d
->   | d `elem` "1234567890" = digitToInt d
->   | d == 'A' = 10
->   | d == 'B' = 11
->   | d == 'C' = 12
->   | d == 'D' = 13
->   | d == 'E' = 14
->   | d == 'F' = 15
-
-> probxTest1 = fromHexChar 'D' == 13
-> probxTest2 = fromHexChar '7' == 7
-> probx = do
->         putStrLn ("fromHexChar \'D\' = " ++ show(fromHexChar 'D'))
->         putStrLn ("fromHexChar \'7\' = " ++ show(fromHexChar '7'))
->         putStrLn ("Test = " ++ if probxTest1 && probxTest2 then "PASS" 
->           else "FAIL") 
-
-**. Write a tail recursive function, `fromHex` that given a positive hexadecimal 
-    string, will return its base 10 Integral representation.
-
-> fromHex [] = 0
-> fromHex (x:xs) = (16^(length(x:xs)-1) * fromHexChar x) + fromHex xs 
-
-
+> prob3Test = fromBin [1,0,1,0,1,0] == 42
+> prob3 = do
+>         putStrLn ("fromBin [1,0,1,0,1,0] = " ++ show (fromBin [1,0,1,0,1,0]))
+>         putStrLn ("Test = " ++ if prob3Test then "PASS" else "FAIL")
 

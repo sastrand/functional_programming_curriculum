@@ -155,6 +155,43 @@ blah
 >   | sort xs == sort ys = False 
 >   | otherwise          = subset xs ys
 
--- 20190129
+-- 20190130
+
+
+**. Write a function, fromHexChar, that will take a hex character 0-F and 
+    convert it into a base-10 Integral value.
+
+    To do this, you may find the Prelude function `elem` helpful. To interpret
+    its type signature, know that the only foldable type we've seen is a list.
+
+        elem :: (Eq a, Foldable t) => a -> t a -> Bool
+
+    Also, from the Data.Char package:
+
+        digitToInt :: Char -> Int        
+
+> fromHexChar d
+>   | d `elem` "1234567890" = digitToInt d
+>   | d == 'A' = 10
+>   | d == 'B' = 11
+>   | d == 'C' = 12
+>   | d == 'D' = 13
+>   | d == 'E' = 14
+>   | d == 'F' = 15
+
+> probxTest1 = fromHexChar 'D' == 13
+> probxTest2 = fromHexChar '7' == 7
+> probx = do
+>         putStrLn ("fromHexChar \'D\' = " ++ show(fromHexChar 'D'))
+>         putStrLn ("fromHexChar \'7\' = " ++ show(fromHexChar '7'))
+>         putStrLn ("Test = " ++ if probxTest1 && probxTest2 then "PASS" 
+>           else "FAIL") 
+
+**. Write a tail recursive function, `fromHex` that given a positive hexadecimal 
+    string, will return its base 10 Integral representation.
+
+> fromHex [] = 0
+> fromHex (x:xs) = (16^(length(x:xs)-1) * fromHexChar x) + fromHex xs 
+
 
 
