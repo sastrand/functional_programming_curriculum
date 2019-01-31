@@ -22,13 +22,13 @@ series.
 
 A reminder of the head and tail recursive functions we saw last time:
 
-Head recursive:
+Tail recursive:
 
 > zipAdd [] ys = []
 > zipAdd xs [] = []
 > zipAdd (x:xs) (y:ys) = x+y : zipAdd xs ys
 
-Tail recursive:
+Head recursive:
 
 > revAndCap [] = []
 > revAndCap (x:xs) = revAndCap xs ++ [toUpper x]
