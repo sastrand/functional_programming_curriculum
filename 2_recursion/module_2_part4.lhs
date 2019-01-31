@@ -14,7 +14,7 @@ Name:
 
 ------
 
-In the next module we'll start working with trees and other recursive data
+In module three we'll start working with trees and other recursive data
 structures (beyond the list). There solutions with the other two types of
 recursion we're interested in--multiple and mutual recursion--will shine. Until
 then, let's get more practice with head and tail recursion on lists and linear
@@ -46,7 +46,7 @@ Tail recursive:
       ret.reverse()
       return ret
 
-    Without using the `reverse`, write a head-recursive function in Haskell, 
+    Without using `reverse`, write a head-recursive function in Haskell, 
     toBin, to do the same work:
 
 > toBin :: Integral a => a -> [a]
