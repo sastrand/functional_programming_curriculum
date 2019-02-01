@@ -2,154 +2,90 @@ New Beginnings Winter 2019
 Haskell Lab
 
 Module 3: Recursive data structures
-Part   3: Trees
+Part   2: Folding
+
+> import module_3_part2
 
 ------
 Name:
 ------
 
-    wget -np -nH --cut-dirs 2  http://web.cecs.pdx.edu/~sastrand/module_3_part3.lhs
+    wget -np -nH --cut-dirs 2  http://web.cecs.pdx.edu/~sastrand/module_3_part2.lhs
 
 ------
-Trees and Multiple Recursion
+Folding
 ------
 
-Directed, acyclic graphs can model everything from a git repository branching
-and changing over time, to the exploration of all possible proof states in an
-automated theorem prover, to the blockchains used in cryptocurrency. DAGs are
-everywhere, and a tree is just a special case of this ubiquitous data
-structure.
+Today we are just looking at higher order function and we'll see how we can use
+it to abstract away much of the recursive work we saw in the last module.
 
-In this module we'll work with a binary search tree seeing how to modify and
-traverse it recursively.
+In module 2 you got some practice recursing through a list, applying a function, 
+to each element, accumulating values into a single result, and terminating at a 
+base case with a fixed result.
 
-A binary tree is either a leaf (a node with no children) or a node connected
-to a left tree and a right tree, and a binary search tree is a binary tree that
-maintains the *binary search property* in which every node has a value from an
-ordered set, every value in the left sub-tree of a node is less than its value
-and every value in the right sub-tree of a node is greater than its value.
+For instance, a function to find the product of a list of numbers:
 
-We can define this data structure in Haskell:
+> prod :: Num p => [p] -> p 
+> prod []     = 1
+> prod (x:xs) = x * prod xs
 
-> data BST a = EmptyLeaf
->            | Node (BST a) a (BST a) deriving Show
+This patten is so often used, that it has its own pair of higher-order
+functions, `foldl` and `foldr`.
 
-The `deriving Show` at the end of the definition asks the type system to work
-out a way to reasonably print the data type we've just defined.
+These fold operations take a list and apply a binary function between every
+pair of elements. The fold of a list of integers over the `+` is its sum. The
+fold of a list over the `||` operator will tell you if any of its values are
+True.
 
-We can add a value to the tree using pattern matching and guards to recursively
-traverse the tree until we find a location to insert that value that will
-maintain the binary search property for the whole tree.
+To use the fold functions all we need is a list, a binary function, and a base
+case that Miran Lipovača calls an "accumulator" in *Learn You a Haskell*. 
+If we want to pair-wise evaluate the list from left to right, starting with the
+accumulator and using the result of one evaluation as the right value of the
+next, we can use `foldl`.
 
-> bstInsert :: (Ord a) => BST a -> a -> BST a
-> bstInsert EmptyLeaf a = Node EmptyLeaf a EmptyLeaf
-> bstInsert (Node l a r) b 
->     | b == a = Node l a r
->     | b > a  = Node l a (bstInsert r b)
->     | b < a  = Node (bstInsert l b) a r
+For instance, to rewrite `prod` using `foldl`:
 
-When working with a single instance of a tree, we can break its pattern up into
-(Node l a r) just like we could break the pattern of a list up into (x:xs).
-This indicates that the BST we're interested in isn't an `EmptyLeaf` and gives
-us some variable names to use in the rest of the function to define its
-component parts.
+> prod' xs = foldl (*) 1 xs
 
-We can notice here that `bstInsert` calls itself twice in its own definition.
-This is an example of multiple recursion, and will allow us to traverse a tree
-with the same recursive patterns we'd use to traverse a list.
+`foldr` works the same way but we start the accumulator at the right and move
+from right to left through the list. We can see the difference accumulating
+with an operation that isn't associative like substraction:
 
-To do much more, we see that we'll have more than two patterns we want to 
-match. For example to perform an in-order traversal of the tree and return the 
-result as a list, we'll have two base cases and three recursive cases. We can
-define each of these as an instance of the the function we're writing, as we've
-been doing or use a new, more concise piece of syntax, the case expression.
+> subLtoR = foldl (-) 0 [1,2,3,4] --      ((((0 - 1) - 2) - 3) - 4)
+> subRtoL = foldr (-) 0 [1,2,3,4] --      (1 - (2 - (3 - (4 - 0))))
 
-In a case expression, each pattern on which we want to match gets its own line,
-followed by a `->`. We apply the case onto a more general parameter name to the
-entire function.
+Let's go back to `bstCreateFromList` in the last module. We see here that we
+defined what we want the function to do in two base cases for the list--when
+the list contains one element and when the list is empty. And then we build a
+tree from all the elements in the list by starting at the left and inserting
+the head of the list into the tree, then inserting every subsequent value into
+the result of this initial insertion operation.
 
+  bstCreateFromList :: (Ord a) => [a] -> BTree a
+  bstCreateFromList l = 
+    case l of
+      []   -> EmptyLeaf
+      x:[] -> Node EmptyLeaf x EmptyLeaf
+      x:xs -> foldl bstInsert (Node EmptyLeaf x EmptyLeaf) xs
 
-> bstInOrder :: (Ord a) => BST a -> [a]
-> bstInOrder t =
->   case t of 
->     EmptyLeaf -> []
->     Node EmptyLeaf a EmptyLeaf -> [a]
->     Node l a EmptyLeaf -> bstInOrder(l) ++ [a]
->     Node EmptyLeaf a r -> bstInOrder(r) ++ [a]
->     Node l a r -> bstInOrder(l) ++ [a] ++ bstInOrder(r)
-
-Also, to help with testing out your trees, here is a function that will take a
-list and generate a list from that tree by applying the `bstInsert` function to
-each element. We'll come back to this function in the next part of this moudle
-when we talk more about how `foldl` works.
-
-> bstCreateFromList :: (Ord a) => [a] -> BST a
-> bstCreateFromList l = 
->   case l of
->     []   -> EmptyLeaf
->     x:[] -> Node EmptyLeaf x EmptyLeaf
->     x:xs -> foldl bstInsert (Node EmptyLeaf x EmptyLeaf) xs
 
 ------
 Exercises
 ------
 
-**. Write a function, `bstSearch`, that will search for a value in a BST, 
-    returning True if the value is present and False otherwise.
+**. Write a function, `minBinTree`, that will traverse a binary tree without
+    knowing if it has the binary search tree property, and return its minimum
+    element.
 
-> bstSearch :: (Ord a) => BST a -> a -> Bool
-> bstSearch EmptyLeaf a = False
-> bstSearch (Node l a r) b
->   | b == a = True
->   | b /= a = (bstSearch l b) || (bstSearch r b)
+> minBinTree 
 
-> prob1Test1 = bstSearch (bstCreateFromList [3,1,4,1,5,9]) 3 == True
-> prob1Test2 = bstSearch (bstCreateFromList [3,1,4,1,5,9]) 7 == False
-> prob1 = do
->         putStrLn ("Test 1 = " ++ show (bstSearch (bstCreateFromList 
->           [3,1,4,1,5,9]) 3))
->         putStrLn ("Test 2 = " ++ show (bstSearch (bstCreateFromList
->           [3,1,4,1,5,9]) 7))
->         putStrLn ("Test = " ++ if prob1Test1 && prob1Test2 then "PASS" else "FAIL")
+**. Write a function `maxBinTree`, that will traverse a binary tree without 
+    knowing if it has the binary search tree property, and return its maximum
+    element.
 
-**. Modify `bstInOrder` to create `bstPreOrder`, a function that performs a 
-    pre-order traversal of a given tree and return the path of this traversal 
-    as a list.
+**. Write a function, `isBST`, that will check if a given binary tree is a 
+    binary search tree.
 
-> bstPreOrder :: (Ord a) => BST a -> [a]
-> bstPreOrder t =
->   case t of 
->     EmptyLeaf -> []
->     Node EmptyLeaf a EmptyLeaf -> [a]
->     Node l a EmptyLeaf -> [a] ++ bstPreOrder(l)
->     Node EmptyLeaf a r -> [a] ++ bstPreOrder(r)
->     Node l a r -> [a] ++ bstPreOrder(l) ++ bstPreOrder(r)
+    You may find it helpful to write two helper functions, one that returns the
+    minimum value in a tree and one that returns the maximum value in a tree.
 
-> prob2Test1 = bstSearch (bstCreateFromList [3,1,4,1,5,9]) 3 == True
-> prob2Test2 = bstSearch (bstCreateFromList [3,1,4,1,5,9]) 7 == False
-> prob2 = do
->         putStrLn ("Test 1 = " ++ show (bstSearch (bstCreateFromList 
->           [3,1,4,1,5,9]) 3))
->         putStrLn ("Test 2 = " ++ show (bstSearch (bstCreateFromList
->           [3,1,4,1,5,9]) 7))
->         putStrLn ("Test = " ++ if prob1Test1 && prob1Test2 then "PASS" else "FAIL")
-
-
-------
-Aside: Mutual recursion
-------
-
-One additional type of recursion we're not covering here is mutual recursion,
-in which two or more functions call one another recursively. The definition for
-a tree in which each node contains arbitarily many children is a good example
-of mutual recursion. To read more about this example and mutual recursion, you
-can check out the sources linked at the bottom of the file.
-
-
-------
-Sources
-------
-
---- mutual recursion
-https://en.wikipedia.org/wiki/Mutual_recursion
-https://stackoverflow.com/questions/28431125/mutual-recursion-in-odd-even-functions-in-haskell
