@@ -8,7 +8,7 @@ Part   3: Trees
 Name:
 ------
 
-    wget -np -nH --cut-dirs 2  http://web.cecs.pdx.edu/~sastrand/module_3_part1.lhs
+    wget -np -nH --cut-dirs 2  http://web.cecs.pdx.edu/~sastrand/module_3_part3.lhs
 
 ------
 Trees and Multiple Recursion
@@ -133,9 +133,6 @@ Exercises
 >         putStrLn ("Test 2 = " ++ show (bstSearch (bstCreateFromList
 >           [3,1,4,1,5,9]) 7))
 >         putStrLn ("Test = " ++ if prob1Test1 && prob1Test2 then "PASS" else "FAIL")
-
-
-
 
 
 ------
