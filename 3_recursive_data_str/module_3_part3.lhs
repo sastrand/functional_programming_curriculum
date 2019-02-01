@@ -2,7 +2,7 @@ New Beginnings Winter 2019
 Haskell Lab
 
 Module 3: Recursive data structures
-Part   2: Folding
+Part   3: Folding
 
 > import module_3_part2
 
@@ -10,7 +10,7 @@ Part   2: Folding
 Name:
 ------
 
-    wget -np -nH --cut-dirs 2  http://web.cecs.pdx.edu/~sastrand/module_3_part2.lhs
+    wget -np -nH --cut-dirs 2  http://web.cecs.pdx.edu/~sastrand/module_3_part3.lhs
 
 ------
 Folding
@@ -76,8 +76,6 @@ Exercises
 **. Write a function, `minBinTree`, that will traverse a binary tree without
     knowing if it has the binary search tree property, and return its minimum
     element.
-
-> minBinTree 
 
 **. Write a function `maxBinTree`, that will traverse a binary tree without 
     knowing if it has the binary search tree property, and return its maximum
