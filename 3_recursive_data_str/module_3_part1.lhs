@@ -135,7 +135,7 @@ Exercises
 string "sasquatch", returning True or False depending. Drop your lambda
 directly into the test by replacing `undefined`.
 
-> prob1Test = (\x -> x == "sasquatch") "sasquatch" == True
+> prob1Test = undefined "sasquatch" == True
 > prob1 = putStrLn ("Test => " ++ if prob1Test then "PASS" else "FAIL")
 
 
@@ -143,7 +143,7 @@ directly into the test by replacing `undefined`.
     `squatchCount`, that will take a list and count the number of instances of 
     "sasquatch" present.
 
-> squatchCount :: [[Char]] -> Int
+> squatchCount :: [String] -> Int
 > squatchCount x = length $ filter (\x -> x == "sasquatch") x
 
 > nwCampSite = ["tree", "rain", "camp fire", "sasquatch"]
@@ -159,6 +159,7 @@ directly into the test by replacing `undefined`.
 03. Using a lambda, write a function, `remove`, that will take a value and 
     remove every element of a list that matches that value.
 
+> remove :: Eq a => a -> [a] -> [a]
 > remove x xs = filter (\y -> x/=y) xs
 
 > littleData = [256, 100, 32]
@@ -173,6 +174,7 @@ directly into the test by replacing `undefined`.
 04. Write a function, `drySeason`, that takes a list of lists of strings and
     removes every instance of the string "rain".
 
+> drySeason :: [[String]] -> [[String]]
 > drySeason xss = map (remove "rain") xss
 
 > nwCampStrs = [["rain","camp fire"],["headwaters","ghost stories", 
@@ -193,6 +195,7 @@ directly into the test by replacing `undefined`.
     replace `undefined` with a partially applied version of `remove` composed
     with `length`.
 
+> drySeasonCount :: [[String]] -> Int
 > drySeasonCount xss = sum $ map (length . remove "rain") xss
 
 > prob5Test = drySeasonCount nwCampStrs == 7
