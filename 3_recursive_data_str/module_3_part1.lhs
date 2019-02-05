@@ -43,21 +43,18 @@ of the function onto our input.
 
   map (`div` 25) someChange
 
-With a function that's not prefixed in the first place, this is even more
-straightfoward. For instance, if we want to find all the strings in a lis
-
 
 ------
 Lambdas
 ------
 
-Like comprehensions, lambdas began as an artificat of functional languages but
+Like comprehensions, lambdas began as an artifact of functional languages but
 have gained very widespread use outside the paradigm because of their
 flexibility and concision.
 
 A lambda is a function that is not named.
 
-By comparision, the result of 1/0.099 is a value that is not named.
+By comparison, the result of 1/0.099 is a value that is not named.
 Anywhere we want to use that value, we can substitute the expression (1/0.099). 
 If you need to type it multiple times, it's probably better to name it, but
 if you only need to use this value once, giving it a name only makes your code
@@ -71,7 +68,7 @@ is a palindrome, we could write it:
 Then we could write a function that takes a list of strings and returns those
 that match our test with the `filter` function.
 
-> securityDeposit = ["tenent", "spackle", "sconce", "repaper"]
+> securityDeposit = ["tenant", "spackle", "sconce", "repaper"]
 > palindromes x = filter isPalindrome x
 
 But if we only needed to do this once, we might as well not bother naming
@@ -99,7 +96,7 @@ For example, a function that will add a given value to every element in a list:
   addThis 3 someVals => [4,5,6]
 
 Another term for a partially applied function is a curried function, named
-after the logicial Haskell Curry.
+after the logician Haskell Curry.
 
 ------
 Function Composition
@@ -112,7 +109,7 @@ element in a list `xs` is equal to `head (reverse xs)`.
 > last xs = head (reverse xs)
 
 There is some special syntax for function composition that echos the small,
-in-line circle used in mathmatical notation to represent function composition.
+in-line circle used in mathematical notation to represent function composition.
 This expresses the idea of function composition somewhat differently, instead
 of applying one function and then applying another function to the result,
 we're creating a new function that is the composition of the two of them.
@@ -180,7 +177,7 @@ directly into the test by replacing `undefined`.
 > drySeason xss = sum $ map (length . remove "rain") xss
 
 > nwCampStrs = [["rain","camp fire"],["headwaters","ghost stories", 
->   "omgWasThatABear"],["oregon","washington","rain","brittish columbia"]]
+>   "omgWasThatABear"],["oregon","washington","rain","british columbia"]]
 > prob4Test = drySeason nwCampStrs == 7
 > prob4 = do
 >         putStrLn $ "Test1 => " ++ show (drySeason nwCampStrs)
