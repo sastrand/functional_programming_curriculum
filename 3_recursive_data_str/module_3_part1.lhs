@@ -69,7 +69,7 @@ Then we could write a function that takes a list of strings and returns those
 that match our test with the `filter` function.
 
 > securityDeposit = ["tenant", "spackle", "sconce", "repaper"]
-> palindromes x = filter isPalindrome x
+> palindromes word = filter isPalindrome word
 
 But if we only needed to do this once, we might as well not bother naming
 `isPalindrome`. We can write it as a lambda with the following syntax:
@@ -78,7 +78,7 @@ But if we only needed to do this once, we might as well not bother naming
 
 This makes our palindromes expression:
 
-> palindromes' x = filter (\x -> x == reverse x) x
+> palindromes' word = filter (\x -> x == reverse x) word
 
 Did we save a lot of keystrokes, not really, but we can understand
 `palindromes'` without needing to look up the one-line function `isPalindrome`.
@@ -169,17 +169,34 @@ directly into the test by replacing `undefined`.
 >         putStrLn ("Test 2 => " ++ show (remove "rain" nwCampSite))
 >         putStrLn ("Test = " ++ if prob3Test1 && prob3Test2 then "PASS" else "FAIL")
 
-04. Replace `undefined` in the function below with a partially applied 
-    version of your `remove` implementation composed with the `length` function
-    to finish the function `drySeason` that takes a list of lists of strings
-    and returns the quantity that are not equal to "rain".
 
-> drySeason xss = sum $ map (length . remove "rain") xss
+04. Write a function, `drySeason`, that takes a list of lists of strings and
+    removes every instance of the string "rain".
+
+> drySeason xss = map (remove "rain") xss
 
 > nwCampStrs = [["rain","camp fire"],["headwaters","ghost stories", 
 >   "omgWasThatABear"],["oregon","washington","rain","british columbia"]]
-> prob4Test = drySeason nwCampStrs == 7
+> nwCapStrsNoRain = [["camp fire"],["headwaters","ghost stories", 
+>   "omgWasThatABear"],["oregon","washington","british columbia"]]
+> prob4Test = drySeason nwCampStrs == nwCapStrsNoRain
 > prob4 = do
 >         putStrLn $ "Test1 => " ++ show (drySeason nwCampStrs)
 >         putStrLn $ "Test  = " ++ if prob4Test then "PASS" else "FAIL"
+
+
+05. Write a function, `drySeasonCount`, that takes a list of lists of strings
+    and returns the count of strings in this data structure that are not equal
+    to "rain".
+
+    As a hint, you can start with the function partially defined here and
+    replace `undefined` with a partially applied version of `remove` composed
+    with `length`.
+
+> drySeasonCount xss = sum $ map (length . remove "rain") xss
+
+> prob5Test = drySeasonCount nwCampStrs == 7
+> prob5 = do
+>         putStrLn $ "Test1 => " ++ show (drySeasonCount nwCampStrs)
+>         putStrLn $ "Test  = " ++ if prob5Test then "PASS" else "FAIL"
 
