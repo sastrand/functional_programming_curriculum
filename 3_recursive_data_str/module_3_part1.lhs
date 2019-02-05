@@ -139,12 +139,12 @@ directly into the test by replacing `undefined`.
 > prob1 = putStrLn ("Test => " ++ if prob1Test then "PASS" else "FAIL")
 
 
-02. Use your lambda from the previous exercise to write a function, 
+02. Use your lambda in the previous solution to write a function, 
     `squatchCount`, that will take a list and count the number of instances of 
     "sasquatch" present.
 
 > squatchCount :: [String] -> Int
-> squatchCount x = length $ filter (\x -> x == "sasquatch") x
+> squatchCount = undefined
 
 > nwCampSite = ["tree", "rain", "camp fire", "sasquatch"]
 > neCampSite = ["tree"]
@@ -156,11 +156,12 @@ directly into the test by replacing `undefined`.
 >         putStrLn ("Test = " ++ if prob2Test1 && prob2Test2 then "PASS" else "FAIL")
 
 
-03. Using a lambda, write a function, `remove`, that will take a value and 
-    remove every element of a list that matches that value.
+03. Using a lambda or partially applied function, write a function, `remove`, 
+    that will take a value and remove every element of a list that matches that 
+    value.
 
 > remove :: Eq a => a -> [a] -> [a]
-> remove x xs = filter (\y -> x/=y) xs
+> remove = undefined
 
 > littleData = [256, 100, 32]
 > prob3Test1 = remove 100 littleData    == [256,32]
@@ -175,7 +176,7 @@ directly into the test by replacing `undefined`.
     removes every instance of the string "rain".
 
 > drySeason :: [[String]] -> [[String]]
-> drySeason xss = map (remove "rain") xss
+> drySeason = undefined
 
 > nwCampStrs = [["rain","camp fire"],["headwaters","ghost stories", 
 >   "omgWasThatABear"],["oregon","washington","rain","british columbia"]]
@@ -196,7 +197,7 @@ directly into the test by replacing `undefined`.
     with `length`.
 
 > drySeasonCount :: [[String]] -> Int
-> drySeasonCount xss = sum $ map (length . remove "rain") xss
+> drySeasonCount xss = sum $ map (undefined) xss
 
 > prob5Test = drySeasonCount nwCampStrs == 7
 > prob5 = do
