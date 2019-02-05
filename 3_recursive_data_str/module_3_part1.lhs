@@ -131,17 +131,17 @@ over a list to find the square roots of the elements' absolute values:
 Exercises
 ------
 
-01. Write a lambda that when given a string, will check to see if it is the
-string "sasquatch", returning True or False depending. Drop your lambda
-directly into the test by replacing `undefined`.
+01. Write a lambda or partially applied function that when given a string, will 
+    check to see if it is the string "sasquatch", returning True or False 
+    depending. Drop your solution directly into the test by replacing `undefined`.
 
 > prob1Test = undefined "sasquatch" == True
 > prob1 = putStrLn ("Test => " ++ if prob1Test then "PASS" else "FAIL")
 
 
-02. Use your lambda in the previous solution to write a function, 
-    `squatchCount`, that will take a list and count the number of instances of 
-    "sasquatch" present.
+02. Use your lambda or curried function in the previous solution to write a 
+    function, `squatchCount`, that will take a list and count the number of 
+    instances of "sasquatch" present.
 
 > squatchCount :: [String] -> Int
 > squatchCount = undefined
