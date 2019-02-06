@@ -14,14 +14,13 @@ Name:
 Trees and Multiple Recursion
 ------
 
-Directed, acyclic graphs can model everything from a git repository branching
+Directed, acyclic graphs model everything from a git repository branching
 and changing over time, to the exploration of all possible proof states in an
 automated theorem prover, to the blockchains used in cryptocurrency. DAGs are
-everywhere, and a tree is just a special case of this ubiquitous data
+everywhere, and a binary tree is just a special case of this ubiquitous data
 structure.
 
-In this module we'll work with a binary search tree seeing how to modify and
-traverse it recursively.
+In this module we'll traverse and modify binary trees with recursion.
 
 A binary tree is either a leaf (a node with no children) or a node connected
 to a left tree and a right tree, and a binary search tree is a binary tree that
@@ -62,11 +61,12 @@ functions in the next part of this module.
 > bstCreateFromList :: (Ord a) => [a] -> BTree a
 > bstCreateFromList l = foldl bstInsert EmptyLeaf l
 
+
 ------
 Exercises
 ------
 
-**. Write a function, `bstSearch`, that will search for a value in a BTree with
+01. Write a function, `bstSearch`, that will search for a value in a BTree with
     the binary search tree property, returning True if the value is present and 
     False otherwise.
 
@@ -87,7 +87,7 @@ Exercises
 >         putStrLn ("Test = " ++ if prob1Test1 && prob1Test2 then "PASS" else "FAIL")
 
 
-**. Regardless of the order in which elements were added, the in-order
+02. Regardless of the order in which elements were added, the in-order
     traversal of a binary search tree returns a sorted list of the elements 
     in that tree.
 
