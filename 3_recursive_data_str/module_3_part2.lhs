@@ -61,7 +61,7 @@ with the same recursive patterns we'd use to traverse a list.
 To do much more, we see that we'll have more than two patterns we want to 
 match. For example to perform an in-order traversal of the tree and return the 
 result as a list, we'll have two base cases and three recursive cases. We can
-define each of these as an instance of the the function we're writing, as we've
+define each of these as an instance of the function we're writing, as we've
 been doing or use a new, more concise piece of syntax, the case expression.
 
 In a case expression, each pattern on which we want to match gets its own line,
@@ -139,7 +139,7 @@ Aside: Mutual recursion
 
 One additional type of recursion we're not covering here is mutual recursion,
 in which two or more functions call one another recursively. The definition for
-a tree in which each node contains arbitarily many children is a good example
+a tree in which each node contains arbitrary many children is a good example
 of mutual recursion. To read more about this example and mutual recursion, you
 can check out the sources linked at the bottom of the file.
 
