@@ -54,41 +54,13 @@ This indicates that the BTree we're interested in isn't an `EmptyLeaf` and gives
 us some variable names to use in the rest of the function to define its
 component parts.
 
-We can notice here that `bstInsert` calls itself twice in its own definition.
-This is an example of multiple recursion, and will allow us to traverse a tree
-with the same recursive patterns we'd use to traverse a list.
-
-To do much more, we see that we'll have more than two patterns we want to 
-match. For example to perform an in-order traversal of the tree and return the 
-result as a list, we'll have two base cases and three recursive cases. We can
-define each of these as an instance of the function we're writing, as we've
-been doing or use a new, more concise piece of syntax, the case expression.
-
-In a case expression, each pattern on which we want to match gets its own line,
-followed by a `->`. We apply the case onto a more general parameter name to the
-entire function.
-
-
-> bTreeInOrder :: (Ord a) => BTree a -> [a]
-> bTreeInOrder t =
->   case t of 
->     EmptyLeaf -> []
->     Node EmptyLeaf a EmptyLeaf -> [a]
->     Node l a EmptyLeaf -> bTreeInOrder(l) ++ [a]
->     Node EmptyLeaf a r -> bTreeInOrder(r) ++ [a]
->     Node l a r -> bTreeInOrder(l) ++ [a] ++ bTreeInOrder(r)
-
-Also, to help with testing out your trees, here is a function that will take a
-list and generate a list from that tree by applying the `bstInsert` function to
+Also, to help with testing, here is a function that will take a list and 
+generate a tree from that list by applying the `bstInsert` function to
 each element. We'll come back to this function when we look at the fold
 functions in the next part of this module.
 
 > bstCreateFromList :: (Ord a) => [a] -> BTree a
-> bstCreateFromList l = 
->   case l of
->     []   -> EmptyLeaf
->     x:[] -> Node EmptyLeaf x EmptyLeaf
->     x:xs -> foldl bstInsert (Node EmptyLeaf x EmptyLeaf) xs
+> bstCreateFromList l = foldl bstInsert EmptyLeaf l
 
 ------
 Exercises
@@ -101,8 +73,9 @@ Exercises
 > bstSearch :: (Ord a) => BTree a -> a -> Bool
 > bstSearch EmptyLeaf a = False
 > bstSearch (Node l a r) b
->   | b == a = True
->   | b /= a = (bstSearch l b) || (bstSearch r b)
+>   | b == a    = True
+>   | b <  a    = bstSearch l b
+>   | otherwise = bstSearch r b
 
 > prob1Test1 = bstSearch (bstCreateFromList [3,1,4,1,5,9]) 3 == True
 > prob1Test2 = bstSearch (bstCreateFromList [3,1,4,1,5,9]) 7 == False
@@ -113,22 +86,20 @@ Exercises
 >           [3,1,4,1,5,9]) 7))
 >         putStrLn ("Test = " ++ if prob1Test1 && prob1Test2 then "PASS" else "FAIL")
 
-**. Modify `bTreeInOrder` to create `bTreePreOrder`, a function that performs a 
-    pre-order traversal of a given tree and return the path of this traversal 
-    as a list.
 
-> bTreePreOrder :: (Ord a) => BTree a -> [a]
-> bTreePreOrder t =
->   case t of 
->     EmptyLeaf -> []
->     Node EmptyLeaf a EmptyLeaf -> [a]
->     Node l a EmptyLeaf -> [a] ++ bTreePreOrder(l)
->     Node EmptyLeaf a r -> [a] ++ bTreePreOrder(r)
->     Node l a r -> [a] ++ bTreePreOrder(l) ++ bTreePreOrder(r)
+**. Regardless of the order in which elements were added, the in-order
+    traversal of a binary search tree returns a sorted list of the elements 
+    in that tree.
 
-> prob2Test1 = bTreePreOrder (bstCreateFromList [4,9,1,1,7,5]) == [4,1,9,7,5]
+    Write a function, `bTreeInOrder` that takes a tree and returns its in-order
+    traversal as a list of elements.
+
+> bTreeInOrder EmptyLeaf = []
+> bTreeInOrder (Node l a r) = bTreeInOrder l ++ [a] ++ bTreeInOrder r
+
+> prob2Test1 = bTreeInOrder (bstCreateFromList [4,9,1,1,7,5]) == [1,4,7,5,9]
 > prob2 = do
->         putStrLn ("Test 1 = " ++ show (bTreePreOrder (bstCreateFromList 
+>         putStrLn ("Test 1 = " ++ show (bTreeInOrder (bstCreateFromList 
 >           [4,9,1,1,7,5])))
 >         putStrLn ("Test = " ++ if prob1Test1 then "PASS" else "FAIL")
 
