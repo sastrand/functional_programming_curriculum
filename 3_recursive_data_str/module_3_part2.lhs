@@ -1,4 +1,4 @@
-New Beginnings Winter 2019
+ew Beginnings Winter 2019
 Haskell Lab
 
 Module 3: Recursive data structures
@@ -14,7 +14,7 @@ Name:
 Trees and Multiple Recursion
 ------
 
-Directed, acyclic graphs model everything from a git repository branching
+Directed, acyclic graphs model everything from a git repositories branching
 and changing over time, to the exploration of all possible proof states in an
 automated theorem prover, to the blockchains used in cryptocurrency. DAGs are
 everywhere, and a binary tree is just a special case of this ubiquitous data
@@ -32,6 +32,24 @@ We can define a binary tree in Haskell:
 
 > data BTree a = EmptyLeaf
 >            | Node (BTree a) a (BTree a) deriving Show
+
+The `data` keyword here defines a new data type. We haven't seen this
+explicitly in a language yet. (Despite the name, C's `typedef` keyword only
+allows one to add a new name to an existing type.) But in an OOP context, every
+new class is a new data type. And it is in this sense that we're creating
+`BTree`.
+
+The pipe in the declaration of the `BTree` type can be read as an "or", showing
+that a `BTree` can be either an `EmptyLeaf` or given some type `a`, it can be
+two `BTree`s of type `a` surrounding a value of type `a`.
+
+To create a new instance of `BTree` we can create an empty leaf, give it a
+value, or give it a value and a sub-tree:
+
+    sadTree = EmptyLeaf
+    betterTree = Node EmptyLeaf 42 EmptyLeaf
+    twoTierTree = Node (Node EmptyLeaf 7 EmptyLeaf) 42 EmptyLeaf
+
 
 The `deriving Show` at the end of the definition asks the type system to work
 out a way to reasonably print the data type we've just defined.
@@ -70,6 +88,9 @@ Exercises
     the binary search tree property, returning True if the value is present and 
     False otherwise.
 
+    Hint/challenge: can you do this in O(lg n) time, for n = the number of 
+    elements in the tree?
+
 > bstSearch :: (Ord a) => BTree a -> a -> Bool
 > bstSearch EmptyLeaf a = False
 > bstSearch (Node l a r) b
@@ -87,12 +108,16 @@ Exercises
 >         putStrLn ("Test = " ++ if prob1Test1 && prob1Test2 then "PASS" else "FAIL")
 
 
-02. Regardless of the order in which elements were added, the in-order
-    traversal of a binary search tree returns a sorted list of the elements 
-    in that tree.
+02. Regardless of the order in which elements were added and the resulting
+    shape of the tree, the in-order traversal of a binary search tree returns 
+    a sorted list of the elements in that tree.
 
     Write a function, `bTreeInOrder` that takes a tree and returns its in-order
     traversal as a list of elements.
+
+    Note that in order to do this, you'll need to make two recursive calls of
+    `bTreeInOrder` each time you invoke the function. This is what is sometimes
+    called "multiple recursion".
 
 > bTreeInOrder EmptyLeaf = []
 > bTreeInOrder (Node l a r) = bTreeInOrder l ++ [a] ++ bTreeInOrder r
