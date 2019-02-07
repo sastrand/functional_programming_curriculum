@@ -92,7 +92,11 @@ Exercises
     elements in the tree?
 
 > bstSearch :: (Ord a) => BTree a -> a -> Bool
-> bstSearch = undefined
+> bstSearch EmptyLeaf a = False
+> bstSearch (Node l a r) b
+>   | b == a    = True
+>   | b <  a    = bstSearch l b
+>   | otherwise = bstSearch r b
 
 > prob1Test1 = bstSearch (bstCreateFromList [3,1,4,1,5,9]) 3 == True
 > prob1Test2 = bstSearch (bstCreateFromList [3,1,4,1,5,9]) 7 == False
@@ -115,8 +119,8 @@ Exercises
     `bTreeInOrder` each time you invoke the function. This is what is sometimes
     called "multiple recursion".
 
-> bTreeInOrder :: BTree a -> [a]
-> bTreeInOrder = undefined
+> bTreeInOrder EmptyLeaf = []
+> bTreeInOrder (Node l a r) = bTreeInOrder l ++ [a] ++ bTreeInOrder r
 
 > prob2Test1 = bTreeInOrder (bstCreateFromList [4,9,1,1,7,5]) == [1,4,7,5,9]
 > prob2 = do
