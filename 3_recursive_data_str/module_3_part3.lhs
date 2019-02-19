@@ -84,23 +84,39 @@ Exercises
 ------
 
 **. Write a function `bayes` that takes a list of probabilities of independent
-    events and returns the probability that they will all happen.
+    events and returns the probability that they will all happen. (Beware
+    floating point errors showing up when you test your code.)
 
 > bayes xs = foldl (*) 1 xs
+
+> prob1Test1 = bayes [0.5, 0.1, 0.8] < 0.041 && bayes [0.5, 0.1, 0.8] > 0.039
+> prob1 = do
+>         putStrLn ("Test = " ++ if prob1Test1 then "PASS" else "FAIL")
 
 **. Write a function `contraBayes` that takes a list of probabilities of
     independent events and returns the probability that none of them will happen.
 
-> contraBayes xs = foldl (\acc x -> acc * 1-x) 1 xs
+> contraBayes xs = foldl (\acc x -> acc * (1-x)) 1 xs
+
+> prob2Test1 = contraBayes [0.6, 0.4, 0.2] == 0.192
+> prob2 = do
+>         putStrLn ("Test = " ++ if prob2Test1 then "PASS" else "FAIL")
 
 **. Write a function `unLine` that takes a string and returns a list of 
     strings in which each original character is now in its own sublist.
 
 > unLine s = foldr (\x acc -> [x] : acc) [] s
 
+> prob3Test1 = unLine "hello" == ["h","e","l","l","o"]
+> prob3 = do
+>         putStrLn ("Test = " ++ if prob3Test1 then "PASS" else "FAIL")
+
 **. Write a function `sumBool` that takes a list of Booleans and returns the
     count of how many are True.
 
 > sumBool xs = foldl (\acc x -> if x then 1+acc else acc) 0 xs
 
+> prob4Test1 = sumBool [True, True, False, True] == 3
+> prob4 = do
+>         putStrLn ("Test = " ++ if prob4Test1 then "PASS" else "FAIL")
 
