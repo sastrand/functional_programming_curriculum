@@ -4,8 +4,6 @@ Haskell Lab
 Module 3: Recursive data structures
 Part   3: Folding
 
- import module_3_part2_sol
-
 ------
 Name:
 ------
