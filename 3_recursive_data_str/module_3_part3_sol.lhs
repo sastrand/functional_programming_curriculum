@@ -88,7 +88,7 @@ Exercises
     floating point errors showing up when you test your code.)
 
 > bayes :: (Foldable t, Num b) => t b -> b
-> bayes = undefined
+> bayes xs = foldl (*) 1 xs
 
 > prob1Test1 = bayes [0.5, 0.1, 0.8] < 0.041 && bayes [0.5, 0.1, 0.8] > 0.039
 > prob1 = do
@@ -99,7 +99,7 @@ Exercises
     independent events and returns the probability that none of them will happen.
 
 > contraBayes :: (Foldable t, Num a) => t a -> a
-> contraBayes = undefined
+> contraBayes xs = foldl (\acc x -> acc * (1-x)) 1 xs
 
 > prob2Test1 = contraBayes [0.6, 0.4, 0.2] == 0.192
 > prob2 = do
@@ -110,7 +110,7 @@ Exercises
     strings in which each original character is now in its own sublist.
 
 > unLine :: Foldable t => t a -> [[a]]
-> unLine = undefined
+> unLine s = foldr (\x acc -> [x] : acc) [] s
 
 > prob3Test1 = unLine "hello" == ["h","e","l","l","o"]
 > prob3 = do
@@ -121,7 +121,7 @@ Exercises
     count of how many are True.
 
 > sumBool :: (Foldable t, Num a) => t Bool -> a
-> sumBool = undefined
+> sumBool xs = foldl (\acc x -> if x then 1+acc else acc) 0 xs
 
 > prob4Test1 = sumBool [True, True, False, True] == 3
 > prob4 = do
