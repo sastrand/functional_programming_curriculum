@@ -175,8 +175,15 @@ Learn You a Haskell Chapter 6
 Exercises
 ------
 
-The numbered exercises below are taken from the Haskell Wiki. You can find more 
-like them at: https://wiki.haskell.org/99_questions
+If there are any exercises in module 3 you haven't finished, particularly
+exerciese on trees, I recommend going back to those. 
+
+Otherwise the exercises below are taken/adapted from the Haskell Wiki and
+should provide some practice using a range of Haskell syntax. Each can be
+solved in at least a few ways. 
+
+You can find more like them and example solutions at: 
+https://wiki.haskell.org/99_questions
 
 32. Using Euclid's Algorithmi (en.wikipedia.org/wiki/Euclidean_algorithm)
     write a function to find the gcd of two numbers.
