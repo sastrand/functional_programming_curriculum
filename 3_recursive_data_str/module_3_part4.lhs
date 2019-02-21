@@ -181,31 +181,50 @@ like them at: https://wiki.haskell.org/99_questions
 32. Using Euclid's Algorithmi (en.wikipedia.org/wiki/Euclidean_algorithm)
     write a function to find the gcd of two numbers.
 
-    [myGCD 36 63, myGCD (-3) (-6), myGCD (-3) 6]
-    [9,3,3]
+> myGCD :: Integral a => a -> a -> a
+> myGCD = undefined
 
+> prob32Test = [myGCD 36 63, myGCD (-3) (-6), myGCD (-3) 6] == [9,3,3]
+> prob32 = do
+>         putStrLn ("Test = " ++ if prob33bTest then "PASS" else "FAIL")
 
 33. Determine whether two positive integer numbers are coprime. Two numbers are 
     coprime if their greatest common divisor equals 1.
 
-    (coprime 35 64)
-    T
+> coprime :: Integral a => a -> a -> Bool
+> coprime = undefined
 
-**. Given two lists of numbers of the same length, return a list of the pairs
+> prob33Test1 = (coprime 35 64)
+> prob33Test2 = (coprime 6 9) == False
+> prob33 = do
+>         putStrLn ("Test = " ++ if prob33Test1 && not prob33Test2 then "PASS" else "FAIL")
+
+33b. Given two lists of numbers of the same length, return a list of the pairs
     of numbers at corresponding positions in the lists that are co-primes of 
     one another
 
-    coprimes [6,12,35,99] [9,7,64,11]
-    [(12,7),(35,64)]
+> coprimes :: Integral a => [a] -> [a] -> [(a,a)]
+> coprimes = undefined
+
+> prob33bTest = coprimes [6,12,35,99] [9,7,64,11] == [(12,7),(35,64)]
+> prob33b = do
+>         putStrLn ("Test = " ++ if prob33bTest then "PASS" else "FAIL")
 
 17. Split a list into two parts; the length of the first part is given.
 
-    split "abcdefghik" 3
-    ("abc", "defghik")
+> split :: [a] -> Int -> ([a], [a])
+> split = undefined
+
+> prob15Test = split "abcdefghik" 3 == ("abc", "defghik")
+> prob15 = do
+>         putStrLn ("Test = " ++ if prob15Test then "PASS" else "FAIL")
 
 16. Drop every N'th element from a list.
 
-    dropEvery "abcdefghik" 3
-    "abdeghk"
+> dropEvery :: [a] -> Int -> [a]
+> dropEvery = undefined
 
+> prob16Test = dropEvery "abcdefghik" 3 == "abdeghk"
+> prob16 = do
+>         putStrLn ("Test = " ++ if prob16Test then "PASS" else "FAIL")
 
