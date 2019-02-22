@@ -17,7 +17,6 @@ Algebraic Data Types
 > data Book = Book { title     :: String,
 >                    authors    :: [String],
 >                    year      :: Int,
->                    isbn      :: String,
 >                    available :: Int
 >                  } deriving (Show)
 
@@ -28,12 +27,11 @@ Algebraic Data Types
 Creating a record
 
 > book1 = Book "The Difference ENgine: A Novel" 
->             ["William Gibson", "Bruce Sterling"] 2011 "9780440423621" 0
+>              ["William Gibson", "Bruce Sterling"] 2011 0
 
-> book2 = Book "Parable of the Sower" ["Octavia E. Butler"] 2000
->              "9780446675505" 1
+> book2 = Book "Parable of the Sower" ["Octavia E. Butler"] 2000 1
 
-> book3 = Book "Neuromancer" ["William Gibson"] 1986 "9780143111603" 2
+> book3 = Book "Neuromancer" ["William Gibson"] 1986 2
 
 > library1 = Library "Multnomah County" [book1, book2, book3]
 
@@ -66,15 +64,26 @@ Exercises
 >   | otherwise    = Nothing
 >   where bk = filter (\x -> title x == t) (books lib)
 
-** Write a function, `bestSeller`, that takes a library and returns the author 
-   with the most titles (irrespective of available copies) in the library.
-
 ** Define a patron data type, `Patron`, that is a name, a phone number, and a 
    list of books currently checked out.
+
+ data Patron = Patron { name  :: String,
+                        ph    :: String,
+                        books :: [Book]
+                      } deriving (Show)
+
+
+** Write a function, `decrementAvail`, that takes a library and a book and
+   reduces the quantity of that title available in the library by 1.
+
 
 ** Write a function, `checkout`, that takes a library, a book, and a patron as 
    parameters. If there is a copy of the book available in the library, return 
    a copy of the Library with the book's count decremented and a copy of the
    Patron with the book added to their checkout list. If the book is not in the 
    library, return the Library and Patron as they are.
+
+
+** Write a function, `mostTitles`, that takes a library and returns the 
+   author with the most titles (irrespective of available copies) in the library.
 
