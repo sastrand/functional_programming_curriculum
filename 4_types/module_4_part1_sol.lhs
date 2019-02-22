@@ -15,9 +15,9 @@ Algebraic Data Types
 ------
 
 > data Book = Book { title     :: String,
->                    author    :: String,
+>                    authors    :: [String],
 >                    year      :: Int,
->                    ISBN      :: String,
+>                    isbn      :: String,
 >                    available :: Int
 >                  } deriving (Show)
 
@@ -25,13 +25,46 @@ Algebraic Data Types
 >                          books :: [Book]
 >                        } deriving (Show)
 
+Creating a record
+
+> book1 = Book "The Difference ENgine: A Novel" 
+>             ["William Gibson", "Bruce Sterling"] 2011 "9780440423621" 0
+
+> book2 = Book "Parable of the Sower" ["Octavia E. Butler"] 2000
+>              "9780446675505" 1
+
+> book3 = Book "Neuromancer" ["William Gibson"] 1986 "9780143111603" 2
+
+> library1 = Library "Multnomah County" [book1, book2, book3]
+
+
+Accessing a value in a record
+
+  title book1         ==> "Wildflowers of the Pacific Northwest"
+  last (authors book1) ==> "Phyllis Gustafson"
+
+------
+Maybe: Just and Nothing
+------
+
+> secondAuthor book
+>   | length as > 1 = Just $ as!!1
+>   | otherwise     = Nothing
+>   where as = authors book
+
 ------
 Exercises
 ------
 
-** Write a function, `quantAvailable`, that takes a Library and a Book and
-   if the book is in the library, returns the quantity of the title available. 
-   If the book is not in the library, `quantAvailable` should return 0.
+** Write a function, `quantAvailable`, that takes a Library and a book's title 
+   and if the book is in the library, returns just the quantity of the title 
+   available. If the book is not in the library, `quantAvailable` should return 
+   nothing.
+
+> quantAvailable lib t
+>   | length bk > 0 = Just (available (head bk))
+>   | otherwise    = Nothing
+>   where bk = filter (\x -> title x == t) (books lib)
 
 ** Write a function, `bestSeller`, that takes a library and returns the author 
    with the most titles (irrespective of available copies) in the library.
