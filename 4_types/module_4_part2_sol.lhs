@@ -2,7 +2,10 @@ New Beginnings Winter 2019
 Haskell Lab
 
 Module 4: Types
-Part   2: Parametric Types
+Part   2: Typeclass Membership
+
+> import Books
+> import Data.List
 
 ------
 Name:
@@ -11,44 +14,44 @@ Name:
     wget -np -nH --cut-dirs 2  http://web.cecs.pdx.edu/~sastrand/module_4_part2.lhs
 
 ------
-Parametric Types
+Deriving Typeclass Membership
 ------
 
-* Maybe, Just, and Nothing
-* Parametric polymorphism
+> instance Show Library where
+>   show (Library name books) = concat $ map (\x -> "\t" ++ (show x) ++ "\n") books
 
-* Example of polymorphic stack
+> instance Show Book where
+>   show (Book title auth yr avail) = (title ++ " by " ++ concat auth ++ " (" 
+>         ++ show avail ++ ")")
 
-> data Stack a = Stack [a] deriving (Show)
+It may be useful to sort a list of books by title.
 
-> push :: a -> Stack a -> Stack a
-> push x s =
->     case s of 
->       Stack [] -> Stack [x]
->       Stack (x':xs) -> Stack (x:x':xs)
+> instance Ord Book where
+>   compare x y = compare (title x) (title y)
 
---------< aside >--------
+To try it out:
 
-Why does the following not work as a definition for `push`?
-
-  push x s = Stack (x:s)
-
-Creates the following error:
-"Couldn't match expected type ‘[a]’ with actual type ‘Stack a’"
-
---------< end aside >--------
-
-> pop :: Stack a -> (Maybe a, Stack a)
-> pop s = 
->     case s of
->         Stack [] -> (Nothing, Stack [])
->         Stack (x:xs) -> (Just x, Stack xs)
+> sortLib lib = Library (name lib) (sort $ books lib)
 
 ------
 Exercises
 ------
 
-** Write a `peek` and `isEmpty` function for `Stack`.
+**. Extend the Show and Ord typeclasses to include Person.
 
-** Develop a polymorphic priority queue (?)
 
+    other exercieses
+
+
+
+
+
+
+
+
+------
+Sources:
+
+deriving membership in the Ord typeclass:
+http://hackage.haskell.org/package/base-4.6.0.1/docs/Prelude.html#t:Ord
+https://stackoverflow.com/questions/23257915/sorting-a-list-of-custom-data-types-by-certain-attribute-in-haskell

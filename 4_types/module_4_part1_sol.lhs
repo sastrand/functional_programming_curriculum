@@ -14,6 +14,8 @@ Name:
 Algebraic Data Types
 ------
 
+> module Books where
+
 > data Book = Book { title     :: String,
 >                    authors    :: [String],
 >                    year      :: Int,
@@ -22,7 +24,7 @@ Algebraic Data Types
 
 > data Library = Library { name  :: String,
 >                          books :: [Book]
->                        } deriving (Show)
+>                        } 
 
 Creating a record
 

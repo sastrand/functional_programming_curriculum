@@ -8,7 +8,7 @@ Part   2: Parametric Types
 Name:
 ------
 
-    wget -np -nH --cut-dirs 2  http://web.cecs.pdx.edu/~sastrand/module_4_part2.lhs
+    wget -np -nH --cut-dirs 2  http://web.cecs.pdx.edu/~sastrand/module_4_part3.lhs
 
 ------
 Parametric Types
@@ -21,12 +21,9 @@ Parametric Types
 > data Stack a = Stack [a] deriving (Show)
 
 > push :: a -> Stack a -> Stack a
-> push x s =
->     case s of 
->       Stack [] -> Stack [x]
->       Stack (x':xs) -> Stack (x:x':xs)
+> push = undefined
 
---------< aside >--------
+--------< again >--------
 
 Why does the following not work as a definition for `push`?
 
@@ -35,7 +32,7 @@ Why does the following not work as a definition for `push`?
 Creates the following error:
 "Couldn't match expected type ‘[a]’ with actual type ‘Stack a’"
 
---------< end aside >--------
+-------------------------
 
 > pop :: Stack a -> (Maybe a, Stack a)
 > pop s = 

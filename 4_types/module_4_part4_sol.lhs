@@ -8,7 +8,7 @@ Part   3: I/O
 Name:
 ------
 
-    wget -np -nH --cut-dirs 2  http://web.cecs.pdx.edu/~sastrand/module_4_part3.lhs
+    wget -np -nH --cut-dirs 2  http://web.cecs.pdx.edu/~sastrand/module_4_part4.lhs
 
 
 ------
