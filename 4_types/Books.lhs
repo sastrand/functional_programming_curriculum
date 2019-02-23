@@ -15,6 +15,7 @@ Algebraic Data Types
 ------
 
 > module Books where
+> import qualified Data.Map as Map  
 
 > data Book = Book { title     :: String,
 >                    authors   :: [String],
@@ -107,3 +108,19 @@ Exercises
 ** Write a function, `mostTitles`, that takes a library and returns the 
    author with the most titles (irrespective of available copies) in the library.
 
+   For this exercise, I was thinking a dictionary would be a good tool. If
+   you'd like to try out the dictionary package, you can place the following
+   line below the module declaration at the top of this file:
+
+   import qualified Data.Map as Map  
+   
+   For some examples of how to use the library, Learn You a Haskell chptr 7
+   provides some good notes.
+
+> incrAuth auth_qnts bk 
+>   | present   = Map.insert (authors bk) 1 auth_qnts
+>   | otherwise = Map.insert (authors bk)  (auth_qnts Map.! (authors bk) + 1) 
+>                   auth_qnts
+>   where present = Map.member (authors bk) auth_qnts
+
+> mostTitles lib = foldl (\acc x -> incrAuth acc (fst x))  Map.empty (books lib) 
