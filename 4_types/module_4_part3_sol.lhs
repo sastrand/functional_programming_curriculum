@@ -30,7 +30,7 @@ This differs from *parametric polymorphism* in which a value is defined in
 terms of at least one unconstrained type variable that can be supplied by any 
 developer using this value.
 
-Parametric polymorphism is particuarly useful for types that contain other
+Parametric polymorphism is particularly useful for types that contain other
 types, like a list. 
 
 The key difference between the two is if the type variable is constrained. For
@@ -39,7 +39,7 @@ example, the type of `show`:
     show :: Show a => a -> String
 
 describes taking any element whose type is a member of the Show typeclass.
-While the type of the emtpy list:
+While the type of the empty list:
 
     [] :: [a]
 
