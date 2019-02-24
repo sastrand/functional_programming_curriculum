@@ -15,7 +15,6 @@ Algebraic Data Types
 ------
 
 > module Books where
-> import qualified Data.Map as Map  
 
 > data Book = Book { title     :: String,
 >                    authors   :: [String],
@@ -117,7 +116,8 @@ Exercises
 
 
 03. Replace the definition of Patron below using record syntax so you can
-    access individual fields by their names.
+    access individual fields by their names and derive its membership in the
+    Eq typeclass.
 
  data Patron = Patron String String [Book]
 

@@ -2,7 +2,7 @@ New Beginnings Winter 2019
 Haskell Lab
 
 Module 4: Types
-Part   3: I/O
+Part   4: I/O
 
 ------
 Name:
