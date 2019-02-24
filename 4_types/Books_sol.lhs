@@ -78,7 +78,8 @@ Exercises
 >              ("Rent", ["Jonathan Larson"], 1996)]
 
 > buildLibrary :: String -> [(String, [String], Int)] -> Library
-> buildLibrary = undefined
+> buildLibrary addr bks = Library addr (map makeBook bks)
+>   where makeBook (tl, athrs, yr) = (Book tl athrs yr, 1)
 
 > emma = Book "Emma" ["Jane Austen"] 1815
 > rent = Book "Rent" ["Jonathan Larson"] 1996
@@ -100,7 +101,10 @@ Exercises
     nothing.
 
 > quantAvailable :: Library -> String -> Maybe Int
-> quantAvailable = undefined
+> quantAvailable lib t
+>   | length bk > 0 = Just ((sum . (map snd)) bk)
+>   | otherwise     = Nothing
+>   where bk = filter (\(bk, qnt) -> title bk == t) (books lib)
 
 > libD = Library "123 B St" [(rent, 1),(emma, 0)]
 > prob2Test1 = quantAvailable libB "Rent" == Just 1
@@ -115,14 +119,19 @@ Exercises
     access individual fields by their names and derive its membership in the
     Eq typeclass.
 
-> data Patron = Patron String String [Book] deriving (Eq)
+ data Patron = Patron String String [Book]
+
+> data Patron = Patron { name    :: String,
+>                        ph      :: String,
+>                        lentOut :: [Book]
+>                      } deriving (Eq)
 
 
 04. Define a function, `lentToPatron`, that takes a patron and a book and adds
     that book to the list of the books lent out to the patron.
 
 > lentToPatron :: Patron -> Book -> Patron
-> lentToPatron = undefined
+> lentToPatron pat bk = Patron (name pat) (ph pat) (bk : lentOut pat)
 
 > ada = Patron "Ada" "(503) 823-4000" []
 
@@ -136,7 +145,9 @@ Exercises
     reduces the quantity of that book available in the library by 1.
 
 > decrementAvail :: Library -> Book -> Library
-> decrementAvail = undefined
+> decrementAvail lib bk = Library (addr lib) (decAvail lib bk) 
+>   where decAvail lib bk = map (\(bk', qnt) -> if bk == bk' 
+>         then (bk', qnt-1) else (bk', qnt)) (books lib)
 
 > prob5Test = decrementAvail libB emma == libD
 > prob5 = do
