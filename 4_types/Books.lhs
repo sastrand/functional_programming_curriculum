@@ -20,11 +20,11 @@ Algebraic Data Types
 > data Book = Book { title     :: String,
 >                    authors   :: [String],
 >                    year      :: Int
->                  } deriving (Eq)
+>                  } deriving (Eq, Show)
 
 > data Library = Library { addr  :: String,
 >                          books :: [(Book, Int)]
->                        } 
+>                        } deriving (Eq, Show)
 
 Creating a record
 
@@ -41,12 +41,17 @@ Creating a record
 
 Accessing a value in a record
 
-  title book1          ==> "Wildflowers of the Pacific Northwest"
-  last (authors book1) ==> "Phyllis Gustafson"
+  title book1          ==> "The Difference Engine: A Novel"
+  last (authors book1) ==> "Bruce Sterling"
 
 ------
 Maybe: Just and Nothing
 ------
+
+To return nothing from a function, we need a new type that includes a value for
+nothing. Then every return will be of this type--wrapped in its constructors.
+Return values that are a thing, x, will be `Just x` and otherwise will be
+`Nothing`. The function will now return a `Maybe` type.
 
 From the Prelude:
 
@@ -61,6 +66,26 @@ From the Prelude:
 Exercises
 ------
 
+01. Write a function, `buildLibrary`, that will take an address and a list of 
+    (Title, [Author], year) tuples and generate a library from it. We can assume
+    there is only one copy of each book in the library at first.
+
+> buildLibrary :: Foldable t => String -> t (String, [String], Int) -> Library
+> buildLibrary addr bks = foldl (\lib bk -> Library addr ((makeBook bk) 
+>  : (books lib))) (Library addr []) bks
+
+> someBooks = [("Emma", ["Jane Austen"], 1815), ("Fences", ["August Wilson"], 1983)]
+
+> makeBook (tl, athrs, yr) = (Book tl athrs yr, 1)
+
+> prob1Test = buildLibrary "123 B St" someBooks 
+>   == Library "123 B St" (map makeBook someBooks)
+>   || buildLibrary "123 B St" someBooks
+>   == Library "123 B St" (map makeBook $ reverse someBooks)
+
+> prob1 = do
+>         putStrLn ("Test = " ++ if prob1Test then "PASS" else "FAIL")
+
 ** Write a function, `quantAvailable`, that takes a Library and a book's title 
    and if the book is in the library, returns just the quantity of the title 
    available. If the book is not in the library, `quantAvailable` should return 
@@ -70,7 +95,6 @@ Exercises
 >   | length bk > 0 = Just ((sum . (map snd)) bk)
 >   | otherwise     = Nothing
 >   where bk = filter (\(bk, qnt) -> title bk == t) (books lib)
-
 
 ** Define a patron data type, `Patron`, that is a name, a phone number, and a 
    list of books currently checked out. 
@@ -105,22 +129,9 @@ Exercises
 >   | quantAvailable lib (title bk) == Just 0  = Nothing
 >   | otherwise = Just (decAvail lib bk, lentToPatron pat bk)
 
-** Write a function, `mostTitles`, that takes a library and returns the 
-   author with the most titles (irrespective of available copies) in the library.
+**. Write a method `checkIn` that takes a library, a book, and a patron as
+    parameters, increments the quantity available of the book in the library, 
+    removes the book from the patron's `lentOut` list and returns the library
+    and patron in a tuple.
 
-   For this exercise, I was thinking a dictionary would be a good tool. If
-   you'd like to try out the dictionary package, you can place the following
-   line below the module declaration at the top of this file:
 
-   import qualified Data.Map as Map  
-   
-   For some examples of how to use the library, Learn You a Haskell chptr 7
-   provides some good notes.
-
-> incrAuth auth_qnts bk 
->   | present   = Map.insert (authors bk) 1 auth_qnts
->   | otherwise = Map.insert (authors bk)  (auth_qnts Map.! (authors bk) + 1) 
->                   auth_qnts
->   where present = Map.member (authors bk) auth_qnts
-
-> mostTitles lib = foldl (\acc x -> incrAuth acc (fst x))  Map.empty (books lib) 
