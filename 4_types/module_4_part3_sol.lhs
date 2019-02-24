@@ -76,6 +76,7 @@ Exercises
 09. Write a function, `toList`, that takes a stack and converts it to a list
     with the top of the stack in the 0th position of the list.
 
+> toList :: Stack a -> [a]
 > toList (Stack s) = s
 
 > stack0 = Stack []
@@ -85,11 +86,13 @@ Exercises
 > prob9Test2 = toList stack2 == ["sum", "summus", "mus"]
 > prob9 = test([prob9Test1, prob9Test2])
 
+
 10. Write a pop function, `pop`, that takes an instance of the Stack type and
     if there is an element on the stack, returns the element on the top of the 
     stack as well as a modified stack with this element removed, and if there 
     is not, returns nothing.
 
+> pop :: Stack a -> Maybe (a, Stack a)
 > pop (Stack s) 
 >   | isEmpty (Stack s) = Nothing
 >   | otherwise         = Just (head s, Stack (tail s))
@@ -106,10 +109,12 @@ needed above as opposed to (== Nothing)?
 
 --------------------------------
 
+
 11. Write a peek function, `peek`, that takes an instance of the Stack type and
     if there are at least two elements on the stack, returns the element below
     the top of the stack, and otherwise returns nothing.
 
+> peek :: Stack a -> Maybe a
 > peek (Stack s)
 >   | length s > 1 = Just $ s!!1
 >   | otherwise    = Nothing
@@ -119,9 +124,6 @@ needed above as opposed to (== Nothing)?
 > prob11 = test(prob11Tests)
 
 
-
-
-
 ------
 Test Harness
 ------
@@ -129,8 +131,4 @@ Test Harness
 > test ts = do
 >             putStrLn ("Test = " ++ if foldl (&&) True ts 
 >               then "PASS" else "FAIL")
-
-------
-Sources
-------
 
