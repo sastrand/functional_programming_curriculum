@@ -81,12 +81,12 @@ Exercises
 > makeBook (tl, athrs, yr) = (Book tl athrs yr, 1)
 > buildLibrary addr bks = Library addr (map makeBook bks)
 
-> emma   = Book "Emma" ["Jane Austen"] 1815
-> rent = Book "Rent" ["Jonathan Larson"] 1983
-> wool   = Book "Wool" ["Hugh Howey"] 2004
-> libA   = Library "123 B St" [(emma, 1), (rent, 1)]
-> libB   = Library "123 B St" [(rent, 1), (emma, 1)]
-> libC   = Library "456 C St" [(wool, 1)]
+> emma = Book "Emma" ["Jane Austen"] 1815
+> rent = Book "Rent" ["Jonathan Larson"] 1996
+> wool = Book "Wool" ["Hugh Howey"] 2004
+> libA = Library "123 B St" [(emma, 1), (rent, 1)]
+> libB = Library "123 B St" [(rent, 1), (emma, 1)]
+> libC = Library "456 C St" [(wool, 1)]
 > prob1Test1 = buildLibrary "123 B St" someBooks == libA
 >           || buildLibrary "123 B St" someBooks == libB
 > prob1Test2 = buildLibrary "456 C St" [("Wool", ["Hugh Howey"], 2004)] == libC
@@ -107,8 +107,8 @@ Exercises
 
 > libD = Library "123 B St" [(rent, 1),(emma, 0)]
 > prob2Test1 = quantAvailable libB "Rent" == Just 1
-> prob2Test2 = quantAvailable libC "Emma"   == Nothing
-> prob2Test3 = quantAvailable libD "Emma"   == Just 0
+> prob2Test2 = quantAvailable libC "Emma" == Nothing
+> prob2Test3 = quantAvailable libD "Emma" == Just 0
 > prob2 = do
 >         putStrLn ("Test = " ++ if foldl (&&) True [prob2Test1, prob2Test2,
 >           prob2Test3] then "PASS" else "FAIL")
@@ -132,38 +132,57 @@ Exercises
 
 > ada = Patron "Ada" "(503) 823-4000" []
 
-> ada2 = Patron "Ada" "(503) 823-4000" [rent]
-> prob4Test1 = lentToPatron ada rent == ada2
+> ada2 = Patron "Ada" "(503) 823-4000" [emma]
+> prob4Test1 = lentToPatron ada emma == ada2
 > prob4 = do
 >         putStrLn ("Test = " ++ if prob4Test1 then "PASS" else "FAIL")
+
 
 05. Write a function, `decrementAvail`, that takes a library and a book and
     reduces the quantity of that book available in the library by 1.
 
-> decAvail lib bk = map (\(bk', qnt) -> if bk == bk' 
->     then (bk', qnt-1) else (bk', qnt)) (books lib)
 
 > decrementAvail lib bk = Library (addr lib) (decAvail lib bk) 
+>   where decAvail lib bk = map (\(bk', qnt) -> if bk == bk' 
+>         then (bk', qnt-1) else (bk', qnt)) (books lib)
 
-> prob5 = decrementAvail libB emma == libD
+> prob5Test = decrementAvail libB emma == libD
+> prob5 = do
+>         putStrLn ("Test = " ++ if prob5Test then "PASS" else "FAIL")
 
 
-
-
-** Write a function, `checkout`, that takes a library, a book, and a patron as 
-   parameters. If there is a copy of the book available in the library, return 
-   a tuple of the Library with the book's count decremented and the Patron with 
-   the book added to their checkout list. If the book is not in the library, 
-   return Nothing.
+06. Write a function, `checkout`, that takes a library, a book, and a patron as 
+    parameters. If there is a copy of the book available in the library, return 
+    a tuple of the Library with the book's count decremented and the Patron with 
+    the book added to their checkout list. If the book is not in the library, 
+    return Nothing.
 
 > checkout lib bk pat
 >   | quantAvailable lib (title bk) == Nothing = Nothing
 >   | quantAvailable lib (title bk) == Just 0  = Nothing
->   | otherwise = Just (decAvail lib bk, lentToPatron pat bk)
+>   | otherwise = Just (decrementAvail lib bk, lentToPatron pat bk)
 
-**. Write a method `checkIn` that takes a library, a book, and a patron as
+> prob6Test1 = checkout libB emma ada == Just (libD, ada2)
+> prob6Test2 = checkout libB wool ada == Nothing
+> prob6 = do
+>         putStrLn ("Test = " ++ if prob6Test1 && prob6Test2 
+>                    then "PASS" else "FAIL")
+
+07. Write a method `checkIn` that takes a library, a book, and a patron as
     parameters, increments the quantity available of the book in the library, 
     removes the book from the patron's `lentOut` list and returns the library
     and patron in a tuple.
 
+> incrementAvail lib bk = Library (addr lib) (incrAvail lib bk)
+>   where incrAvail lib bk = map (\(bk', qnt) -> if bk == bk'
+>         then (bk', qnt+1) else (bk', qnt)) (books lib)
+
+> bkFromPat pat bk = Patron (name pat) (ph pat) (getFromPat pat bk)
+>   where getFromPat pat bk = [b | b <- lentOut pat, title b /= title bk]
+
+> checkIn lib bk pat = (incrementAvail lib bk, bkFromPat pat bk)
+
+> prob7Test = checkIn libD emma ada2 == (libB, ada)
+> prob7 = do 
+>         putStrLn ("Test = " ++ if prob7Test then "PASS" else "FAIL")
 
