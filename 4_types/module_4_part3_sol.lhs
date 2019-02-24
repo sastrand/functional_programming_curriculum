@@ -10,6 +10,8 @@ Name:
 
     wget -np -nH --cut-dirs 2  http://web.cecs.pdx.edu/~sastrand/module_4_part3.lhs
 
+> import Data.Maybe
+
 ------
 Parametric Types
 ------
@@ -46,7 +48,7 @@ Is an empty list of anything at all.
 In this module, we'll work on a polymorphic stack:
 
 
-> data Stack a = Stack [a] deriving (Show)
+> data Stack a = Stack [a] deriving (Eq, Show)
 
 > push :: a -> Stack a -> Stack a
 > push a (Stack s) = Stack (a : s)
@@ -61,11 +63,11 @@ it with pattern matching.
 >   | otherwise    = True
 
 
-> pop :: Stack a -> (Maybe a, Stack a)
-> pop s = 
->     case s of
->         Stack [] -> (Nothing, Stack [])
->         Stack (x:xs) -> (Just x, Stack xs)
+ pop :: Stack a -> (Maybe a, Stack a)
+ pop s = 
+     case s of
+         Stack [] -> (Nothing, Stack [])
+         Stack (x:xs) -> (Just x, Stack xs)
 
 ------
 Exercises
@@ -74,16 +76,59 @@ Exercises
 09. Write a function, `toList`, that takes a stack and converts it to a list
     with the top of the stack in the 0th position of the list.
 
+> toList (Stack s) = s
+
+> stack0 = Stack []
+> stack1 = Stack [1,2,3,4,5]
+> stack2 = Stack ["sum", "summus", "mus"]
+> prob9Test1 = toList stack1 == [1,2,3,4,5]
+> prob9Test2 = toList stack2 == ["sum", "summus", "mus"]
+> prob9 = test([prob9Test1, prob9Test2])
+
 10. Write a pop function, `pop`, that takes an instance of the Stack type and
     if there is an element on the stack, returns the element on the top of the 
-    stack and a modified stack with this element removed, and if there is not,
-    returns nothing.
+    stack as well as a modified stack with this element removed, and if there 
+    is not, returns nothing.
+
+> pop (Stack s) 
+>   | isEmpty (Stack s) = Nothing
+>   | otherwise         = Just (head s, Stack (tail s))
+
+> prob10Test0 = isNothing $ pop stack0
+> prob10Test1 = pop stack1 == Just (1, Stack [2,3,4,5])
+> prob10Test2 = pop stack2 == Just ("sum", Stack ["summus", "mus"])
+> prob10 = test([prob10Test0, prob10Test1, prob10Test2])
+
+--------< Note to Mark >--------
+
+Given `Stack` has derived membership in the Eq typeclass, why is `isNothing` 
+needed above as opposed to (== Nothing)?
+
+--------------------------------
 
 11. Write a peek function, `peek`, that takes an instance of the Stack type and
     if there are at least two elements on the stack, returns the element below
     the top of the stack, and otherwise returns nothing.
 
+> peek (Stack s)
+>   | length s > 1 = Just $ s!!1
+>   | otherwise    = Nothing
 
+> prob11Tests = [isNothing $ peek stack0, peek stack1 == Just 2, 
+>                 peek stack2 == Just "summus", isNothing $ peek (Stack [0.5])]
+> prob11 = test(prob11Tests)
+
+
+
+
+
+------
+Test Harness
+------
+
+> test ts = do
+>             putStrLn ("Test = " ++ if foldl (&&) True ts 
+>               then "PASS" else "FAIL")
 
 ------
 Sources
