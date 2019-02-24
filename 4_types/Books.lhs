@@ -62,6 +62,11 @@ From the Prelude:
 >   | otherwise     = Nothing
 >   where as = authors book
 
+Note: `where` works outside of guards as well to define an inner function
+
+> getAllAuths lib = map getAuth (books lib)
+>   where getAuth bkTup = authors (fst bkTup)
+
 ------
 Exercises
 ------
@@ -73,13 +78,9 @@ Exercises
 > someBooks = [("Emma", ["Jane Austen"], 1815), 
 >              ("Rent", ["Jonathan Larson"], 1996)]
 
- buildLibrary :: Foldable t => String -> t (String, [String], Int) -> Library
- buildLibrary addr bks = foldl (\lib bk -> Library addr ((makeBook bk) 
-  : (books lib))) (Library addr []) bks
-
-
-> makeBook (tl, athrs, yr) = (Book tl athrs yr, 1)
+> buildLibrary :: String -> [(String, [String], Int)] -> Library
 > buildLibrary addr bks = Library addr (map makeBook bks)
+>   where makeBook (tl, athrs, yr) = (Book tl athrs yr, 1)
 
 > emma = Book "Emma" ["Jane Austen"] 1815
 > rent = Book "Rent" ["Jonathan Larson"] 1996
@@ -100,6 +101,7 @@ Exercises
     available. If the book is not in the library, `quantAvailable` should return 
     nothing.
 
+> quantAvailable :: Library -> String -> Maybe Int
 > quantAvailable lib t
 >   | length bk > 0 = Just ((sum . (map snd)) bk)
 >   | otherwise     = Nothing
@@ -128,6 +130,7 @@ Exercises
 04. Define a function, `lentToPatron`, that takes a patron and a book and adds
     that book to the list of the books lent out to the patron.
 
+> lentToPatron :: Patron -> Book -> Patron
 > lentToPatron pat bk = Patron (name pat) (ph pat) (bk : lentOut pat)
 
 > ada = Patron "Ada" "(503) 823-4000" []
@@ -141,7 +144,7 @@ Exercises
 05. Write a function, `decrementAvail`, that takes a library and a book and
     reduces the quantity of that book available in the library by 1.
 
-
+> decrementAvail :: Library -> Book -> Library
 > decrementAvail lib bk = Library (addr lib) (decAvail lib bk) 
 >   where decAvail lib bk = map (\(bk', qnt) -> if bk == bk' 
 >         then (bk', qnt-1) else (bk', qnt)) (books lib)
@@ -157,6 +160,7 @@ Exercises
     the book added to their checkout list. If the book is not in the library, 
     return Nothing.
 
+> checkout :: Library -> Book -> Patron -> Maybe (Library, Patron)
 > checkout lib bk pat
 >   | quantAvailable lib (title bk) == Nothing = Nothing
 >   | quantAvailable lib (title bk) == Just 0  = Nothing
@@ -173,14 +177,15 @@ Exercises
     removes the book from the patron's `lentOut` list and returns the library
     and patron in a tuple.
 
+> checkIn :: Library -> Book -> Patron -> (Library, Patron)
+> checkIn lib bk pat = (incrementAvail lib bk, bkFromPat pat bk)
+
 > incrementAvail lib bk = Library (addr lib) (incrAvail lib bk)
 >   where incrAvail lib bk = map (\(bk', qnt) -> if bk == bk'
 >         then (bk', qnt+1) else (bk', qnt)) (books lib)
 
 > bkFromPat pat bk = Patron (name pat) (ph pat) (getFromPat pat bk)
 >   where getFromPat pat bk = [b | b <- lentOut pat, title b /= title bk]
-
-> checkIn lib bk pat = (incrementAvail lib bk, bkFromPat pat bk)
 
 > prob7Test = checkIn libD emma ada2 == (libB, ada)
 > prob7 = do 
