@@ -4,7 +4,7 @@ Haskell Lab
 Module 4: Types
 Part   2: Typeclass Membership
 
-> import Books
+> import Books_sol
 > import Data.List
 
 ------
@@ -87,12 +87,14 @@ Exercises
 > checkIn :: Library -> Book -> Patron -> (Library, Patron)
 > checkIn lib bk pat = (incrementAvail lib bk, bkFromPat pat bk)
 
-> incrementAvail lib bk = Library (addr lib) (incrAvail lib bk)
->   where incrAvail lib bk = map (\(bk', qnt) -> if bk == bk'
+> incrementAvail lib bk = 
+>   let incrAvail lib bk = map (\(bk', qnt) -> if bk == bk'
 >         then (bk', qnt+1) else (bk', qnt)) (books lib)
+>   in Library (addr lib) (incrAvail lib bk)
 
-> bkFromPat pat bk = Patron (name pat) (ph pat) (getFromPat pat bk)
->   where getFromPat pat bk = [b | b <- lentOut pat, title b /= title bk]
+> bkFromPat pat bk = 
+>   let getFromPat pat bk = [b | b <- lentOut pat, title b /= title bk]
+>   in Patron (name pat) (ph pat) (getFromPat pat bk)
 
 > prob7Test = checkIn libD emma ada2 == (libB, ada)
 > prob7 = do 
@@ -109,8 +111,9 @@ Exercises
     http://hackage.haskell.org/package/base-4.12.0.0/docs/Prelude.html#v:maximum
 
 > mostTitles :: Library -> String
-> mostTitles lib = head $ snd $ maximum $ map (\x -> (length x, x)) (grpByAuth lib)
->   where grpByAuth lib = groupBy (==) (getAuths lib)
+> mostTitles lib = 
+>   let grpByAuth lib = groupBy (==) (getAuths lib)
+>   in head $ snd $ maximum $ map (\x -> (length x, x)) (grpByAuth lib)
 
 > getAuths lib = sort $ concat $ map (\(bk, qnt) -> authors bk) (books lib)
 

@@ -14,7 +14,7 @@ Name:
 Algebraic Data Types
 ------
 
-> module Books where
+> module Books_sol where
 
 > data Book = Book { title     :: String,
 >                    authors   :: [String],
