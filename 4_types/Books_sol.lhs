@@ -61,10 +61,13 @@ From the Prelude:
 >   | otherwise     = Nothing
 >   where as = authors book
 
-Note: `where` works outside of guards as well to define an inner function
+Note: `let` works similiarly to `where`. Paired up the keyword `in`, it  allows 
+you to define an expression inside another expression. 
 
-> getAllAuths lib = map getAuth (books lib)
->   where getAuth bkTup = authors (fst bkTup)
+> getAllAuths lib = 
+>   let getAuth bkTup = authors (fst bkTup)
+>   in map getAuth (books lib)
+
 
 ------
 Exercises
@@ -78,8 +81,9 @@ Exercises
 >              ("Rent", ["Jonathan Larson"], 1996)]
 
 > buildLibrary :: String -> [(String, [String], Int)] -> Library
-> buildLibrary addr bks = Library addr (map makeBook bks)
->   where makeBook (tl, athrs, yr) = (Book tl athrs yr, 1)
+> buildLibrary addr bks = 
+>   let makeBook (tl, athrs, yr) = (Book tl athrs yr, 1)
+>   in Library addr (map makeBook bks)
 
 > emma = Book "Emma" ["Jane Austen"] 1815
 > rent = Book "Rent" ["Jonathan Larson"] 1996
@@ -145,9 +149,10 @@ Exercises
     reduces the quantity of that book available in the library by 1.
 
 > decrementAvail :: Library -> Book -> Library
-> decrementAvail lib bk = Library (addr lib) (decAvail lib bk) 
->   where decAvail lib bk = map (\(bk', qnt) -> if bk == bk' 
->         then (bk', qnt-1) else (bk', qnt)) (books lib)
+> decrementAvail lib bk = 
+>   let decAvail lib bk = map (\(bk', qnt) -> if bk == bk' 
+>       then (bk', qnt-1) else (bk', qnt)) (books lib)
+>   in Library (addr lib) (decAvail lib bk) 
 
 > prob5Test = decrementAvail libB emma == libD
 > prob5 = do

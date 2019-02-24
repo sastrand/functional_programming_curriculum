@@ -61,10 +61,12 @@ From the Prelude:
 >   | otherwise     = Nothing
 >   where as = authors book
 
-Note: `where` works outside of guards as well to define an inner function
+Note: `let` works similiarly to `where`. Paired up the keyword `in`, it  allows 
+you to define an expression inside another expression. 
 
-> getAllAuths lib = map getAuth (books lib)
->   where getAuth bkTup = authors (fst bkTup)
+> getAllAuths lib = 
+>   let getAuth bkTup = authors (fst bkTup)
+>   in map getAuth (books lib)
 
 ------
 Exercises
