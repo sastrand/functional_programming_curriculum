@@ -8,7 +8,7 @@ Part   1: Algebraic Data Types
 Name:
 ------
 
-    wget -np -nH --cut-dirs 2  http://web.cecs.pdx.edu/~sastrand/module_4_part1.lhs
+    wget -np -nH --cut-dirs 2  http://web.cecs.pdx.edu/~sastrand/Books.lhs
 
 ------
 Algebraic Data Types
