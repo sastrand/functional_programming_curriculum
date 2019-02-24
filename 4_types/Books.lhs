@@ -19,11 +19,11 @@ Algebraic Data Types
 > data Book = Book { title     :: String,
 >                    authors   :: [String],
 >                    year      :: Int
->                  } deriving (Eq, Show)
+>                  } deriving (Eq)
 
 > data Library = Library { addr  :: String,
 >                          books :: [(Book, Int)]
->                        } deriving (Eq, Show)
+>                        } deriving (Eq)
 
 Creating a record
 
@@ -153,41 +153,4 @@ Exercises
 > prob5 = do
 >         putStrLn ("Test = " ++ if prob5Test then "PASS" else "FAIL")
 
-
-06. Write a function, `checkout`, that takes a library, a book, and a patron as 
-    parameters. If there is a copy of the book available in the library, return 
-    a tuple of the Library with the book's count decremented and the Patron with 
-    the book added to their checkout list. If the book is not in the library, 
-    return Nothing.
-
-> checkout :: Library -> Book -> Patron -> Maybe (Library, Patron)
-> checkout lib bk pat
->   | quantAvailable lib (title bk) == Nothing = Nothing
->   | quantAvailable lib (title bk) == Just 0  = Nothing
->   | otherwise = Just (decrementAvail lib bk, lentToPatron pat bk)
-
-> prob6Test1 = checkout libB emma ada == Just (libD, ada2)
-> prob6Test2 = checkout libB wool ada == Nothing
-> prob6 = do
->         putStrLn ("Test = " ++ if prob6Test1 && prob6Test2 
->                    then "PASS" else "FAIL")
-
-07. Write a method `checkIn` that takes a library, a book, and a patron as
-    parameters, increments the quantity available of the book in the library, 
-    removes the book from the patron's `lentOut` list and returns the library
-    and patron in a tuple.
-
-> checkIn :: Library -> Book -> Patron -> (Library, Patron)
-> checkIn lib bk pat = (incrementAvail lib bk, bkFromPat pat bk)
-
-> incrementAvail lib bk = Library (addr lib) (incrAvail lib bk)
->   where incrAvail lib bk = map (\(bk', qnt) -> if bk == bk'
->         then (bk', qnt+1) else (bk', qnt)) (books lib)
-
-> bkFromPat pat bk = Patron (name pat) (ph pat) (getFromPat pat bk)
->   where getFromPat pat bk = [b | b <- lentOut pat, title b /= title bk]
-
-> prob7Test = checkIn libD emma ada2 == (libB, ada)
-> prob7 = do 
->         putStrLn ("Test = " ++ if prob7Test then "PASS" else "FAIL")
 
