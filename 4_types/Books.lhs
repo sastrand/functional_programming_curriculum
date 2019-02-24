@@ -70,31 +70,41 @@ Exercises
     (Title, [Author], year) tuples and generate a library from it. We can assume
     there is only one copy of each book in the library at first.
 
-> buildLibrary :: Foldable t => String -> t (String, [String], Int) -> Library
-> buildLibrary addr bks = foldl (\lib bk -> Library addr ((makeBook bk) 
->  : (books lib))) (Library addr []) bks
-
 > someBooks = [("Emma", ["Jane Austen"], 1815), ("Fences", ["August Wilson"], 1983)]
 
+ buildLibrary :: Foldable t => String -> t (String, [String], Int) -> Library
+ buildLibrary addr bks = foldl (\lib bk -> Library addr ((makeBook bk) 
+  : (books lib))) (Library addr []) bks
+
+
 > makeBook (tl, athrs, yr) = (Book tl athrs yr, 1)
+> buildLibrary addr bks = Library addr (map makeBook bks)
 
-> prob1Test = buildLibrary "123 B St" someBooks 
->   == Library "123 B St" (map makeBook someBooks)
->   || buildLibrary "123 B St" someBooks
->   == Library "123 B St" (map makeBook $ reverse someBooks)
-
+> emma   = Book "Emma" ["Jane Austen"] 1815
+> fences = Book "Fences" ["August Wilson"] 1983
+> wool   = Book "Wool" ["Hugh Howey"] 2004
+> libA   = Library "123 B St" [(emma, 1), (fences, 1)]
+> libB   = Library "123 B St" [(fences, 1), (emma, 1)]
+> libC   = Library "456 C St" [(wool, 1)]
+> prob1Test1 = buildLibrary "123 B St" someBooks == libA
+>           || buildLibrary "123 B St" someBooks == libB
+> prob1Test2 = buildLibrary "456 C St" [("Wool", ["Hugh Howey"], 2004)] == libC
 > prob1 = do
->         putStrLn ("Test = " ++ if prob1Test then "PASS" else "FAIL")
+>         putStrLn ("Test = " ++ if prob1Test1 && prob1Test2 
+>           then "PASS" else "FAIL")
 
-** Write a function, `quantAvailable`, that takes a Library and a book's title 
-   and if the book is in the library, returns just the quantity of the title 
-   available. If the book is not in the library, `quantAvailable` should return 
-   nothing.
+
+02. Write a function, `quantAvailable`, that takes a Library and a book's title 
+    and if the book is in the library, returns just the quantity of the title 
+    available. If the book is not in the library, `quantAvailable` should return 
+    nothing.
 
 > quantAvailable lib t
 >   | length bk > 0 = Just ((sum . (map snd)) bk)
 >   | otherwise     = Nothing
 >   where bk = filter (\(bk, qnt) -> title bk == t) (books lib)
+
+ prob2Test = quantAvailable jk
 
 ** Define a patron data type, `Patron`, that is a name, a phone number, and a 
    list of books currently checked out. 
