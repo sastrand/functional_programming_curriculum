@@ -70,7 +70,8 @@ Exercises
     (Title, [Author], year) tuples and generate a library from it. We can assume
     there is only one copy of each book in the library at first.
 
-> someBooks = [("Emma", ["Jane Austen"], 1815), ("Fences", ["August Wilson"], 1983)]
+> someBooks = [("Emma", ["Jane Austen"], 1815), 
+>              ("Rent", ["Jonathan Larson"], 1996)]
 
  buildLibrary :: Foldable t => String -> t (String, [String], Int) -> Library
  buildLibrary addr bks = foldl (\lib bk -> Library addr ((makeBook bk) 
@@ -81,10 +82,10 @@ Exercises
 > buildLibrary addr bks = Library addr (map makeBook bks)
 
 > emma   = Book "Emma" ["Jane Austen"] 1815
-> fences = Book "Fences" ["August Wilson"] 1983
+> rent = Book "Rent" ["Jonathan Larson"] 1983
 > wool   = Book "Wool" ["Hugh Howey"] 2004
-> libA   = Library "123 B St" [(emma, 1), (fences, 1)]
-> libB   = Library "123 B St" [(fences, 1), (emma, 1)]
+> libA   = Library "123 B St" [(emma, 1), (rent, 1)]
+> libB   = Library "123 B St" [(rent, 1), (emma, 1)]
 > libC   = Library "456 C St" [(wool, 1)]
 > prob1Test1 = buildLibrary "123 B St" someBooks == libA
 >           || buildLibrary "123 B St" someBooks == libB
@@ -104,28 +105,49 @@ Exercises
 >   | otherwise     = Nothing
 >   where bk = filter (\(bk, qnt) -> title bk == t) (books lib)
 
- prob2Test = quantAvailable jk
+> libD = Library "123 B St" [(rent, 1),(emma, 0)]
+> prob2Test1 = quantAvailable libB "Rent" == Just 1
+> prob2Test2 = quantAvailable libC "Emma"   == Nothing
+> prob2Test3 = quantAvailable libD "Emma"   == Just 0
+> prob2 = do
+>         putStrLn ("Test = " ++ if foldl (&&) True [prob2Test1, prob2Test2,
+>           prob2Test3] then "PASS" else "FAIL")
 
-** Define a patron data type, `Patron`, that is a name, a phone number, and a 
-   list of books currently checked out. 
+
+03. Replace the definition of Patron below using record syntax so you can
+    access individual fields by their names.
+
+ data Patron = Patron String String [Book]
 
 > data Patron = Patron { name    :: String,
 >                        ph      :: String,
 >                        lentOut :: [Book]
->                      } 
+>                      } deriving (Eq)
 
-** Define a function, `lentToPatron`, that takes a patron and a book and adds
-   that book to the list of the books lent out to the patron.
+
+04. Define a function, `lentToPatron`, that takes a patron and a book and adds
+    that book to the list of the books lent out to the patron.
 
 > lentToPatron pat bk = Patron (name pat) (ph pat) (bk : lentOut pat)
 
-** Write a function, `decrementAvail`, that takes a library and a book and
-   reduces the quantity of that book available in the library by 1.
+> ada = Patron "Ada" "(503) 823-4000" []
+
+> ada2 = Patron "Ada" "(503) 823-4000" [rent]
+> prob4Test1 = lentToPatron ada rent == ada2
+> prob4 = do
+>         putStrLn ("Test = " ++ if prob4Test1 then "PASS" else "FAIL")
+
+05. Write a function, `decrementAvail`, that takes a library and a book and
+    reduces the quantity of that book available in the library by 1.
 
 > decAvail lib bk = map (\(bk', qnt) -> if bk == bk' 
->     then (bk, qnt-1) else (bk, qnt)) (books lib)
+>     then (bk', qnt-1) else (bk', qnt)) (books lib)
 
-> decrementAvail lib bk = Library (addr lib) (decAvail lib bk)
+> decrementAvail lib bk = Library (addr lib) (decAvail lib bk) 
+
+> prob5 = decrementAvail libB emma == libD
+
+
 
 
 ** Write a function, `checkout`, that takes a library, a book, and a patron as 
