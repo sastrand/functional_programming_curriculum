@@ -10,10 +10,43 @@ Name:
 
     wget -np -nH --cut-dirs 2  http://web.cecs.pdx.edu/~sastrand/module_4_part4.lhs
 
+> import Network.HTTP
 
 ------
 An introduction to I/O in Haskell
 ------
+
+Interactive mode can only take us so far in Haskell. 
+
+In particular, if we want a program that can *do something* in the world, it
+will be helpful to run it directly so a user of the program doesn't have to
+interact with every binding in the namespace to find a run() method.
+
+This matter of doing something takes us to the edge of the material we've set
+out to cover. For a purely non-side effecting language, introducing the ability
+to side-effect safely and explicity entails a new set of language features. 
+
+I/O is one instance of doing something, and we'll work with it here 
+
+    * read from and write to a file
+    * interacting with other parts of the system (eg. the network)
+    * create an interactive program that can run without the interpreter
+
+In this module, we'll build an application that does both of those things.
+
+------
+Reading from a file
+------
+
+Say you have an API key and--reponsibly--you don't want to store it in your
+code, but instead you choose to save it in a `keys.txt` file somewhere else on
+your system.
+
+To access the values in `keys.txt` you need to read them into a data strucutre.
+For now, assuming there is only one key in keys.txt, just pulling it out of the
+file and saving it as a string will work.
+
+> gotBack = getResponseBody (getRequest "http://api.adviceslip.com/advice")
 
 
 ------
