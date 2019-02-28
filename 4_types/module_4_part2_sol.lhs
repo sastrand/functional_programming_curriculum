@@ -28,7 +28,7 @@ keyword. The definitions below define the `show` methods for the `Library` and
 >     (concat $ map (\x -> "\t" ++ (show x) ++ "\n") books)
 
 > instance Show Book where
->   show (Book title auth yr) = title ++ "(" ++ show yr ++ ") by " ++ unwords auth
+>   show (Book title auth yr) = title ++ " (" ++ show yr ++ ") by " ++ unwords auth
 
 Likewise, the Ord typeclass contains the `compare` method used by sorting
 functions. Defining the `compare` method for a type allows a collection of
@@ -52,10 +52,10 @@ Exercises
     To try it out, uncomment the print statement below:
 
 > instance Show Patron where
->   show (Patron name ph lentOut) = (
+>   show (Patron name ph lentOut) = 
 >         "Patron: " ++ name ++ "\n" ++
 >         "Phone:  " ++ ph ++ "\n" ++
->         "Books:  \n" ++ (concat $ map (\x -> "  - " ++ show x ++ "\n") lentOut))
+>         "Books:  \n" ++ (concat $ map (\x -> "  - " ++ show x ++ "\n") lentOut)
 
 > eve = Patron "Eve" "(503) 725-3000" [book1, book2, book3]
 > prob5b = putStrLn(show eve)
@@ -86,14 +86,14 @@ Exercises
     and patron in a tuple.
 
 > checkIn :: Library -> Book -> Patron -> (Library, Patron)
-> checkIn lib bk pat = (incrementAvail lib bk, bkFromPat pat bk)
+> checkIn lib bk pat = (incrementAvail lib bk, patronReturnsBk pat bk)
 
 > incrementAvail lib bk = 
 >   let incrAvail lib bk = map (\(bk', qnt) -> if bk == bk'
 >         then (bk', qnt+1) else (bk', qnt)) (books lib)
 >   in Library (addr lib) (incrAvail lib bk)
 
-> bkFromPat pat bk = 
+> patronReturnsBk pat bk = 
 >   let getFromPat pat bk = [b | b <- lentOut pat, title b /= title bk]
 >   in Patron (name pat) (ph pat) (getFromPat pat bk)
 
@@ -106,8 +106,12 @@ Exercises
     author with the most titles (irrespective of available copies or co-authors) 
     in the library. Ties can be arbitrarily broken.
 
-    You may find the `groupBy` function in Data.List and `maximum` function
-    in the Prelude helpful. You can find more info on each at:
+    For example, one author who has written three of her own books and
+    co-authored two others will count as having written five books, regardless
+    of how many copies the library has on hand.
+
+    To do this, you may find the `groupBy` function in Data.List and `maximum`
+    function in the Prelude helpful. You can find more info on each at:
     http://hackage.haskell.org/package/groupBy-0.1.0.0/docs/Data-List-GroupBy.html
     http://hackage.haskell.org/package/base-4.12.0.0/docs/Prelude.html#v:maximum
 
