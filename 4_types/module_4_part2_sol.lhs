@@ -24,10 +24,11 @@ keyword. The definitions below define the `show` methods for the `Library` and
 `Show` typeclass. 
 
 > instance Show Library where
->   show (Library name books) = concat $ map (\x -> "\t" ++ (show x) ++ "\n") books
+>   show (Library addr books) = addr ++ "\n" ++ 
+>     (concat $ map (\x -> "\t" ++ (show x) ++ "\n") books)
 
 > instance Show Book where
->   show (Book title auth yr) = (title ++ " by " ++ concat auth)
+>   show (Book title auth yr) = title ++ "(" ++ show yr ++ ") by " ++ unwords auth
 
 Likewise, the Ord typeclass contains the `compare` method used by sorting
 functions. Defining the `compare` method for a type allows a collection of
