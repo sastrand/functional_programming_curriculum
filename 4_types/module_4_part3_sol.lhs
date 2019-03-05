@@ -92,22 +92,15 @@ Exercises
     stack as well as a modified stack with this element removed, and if there 
     is not, returns nothing.
 
-> pop :: Stack a -> Maybe (a, Stack a)
-> pop (Stack s) 
->   | isEmpty (Stack s) = Nothing
->   | otherwise         = Just (head s, Stack (tail s))
+> pop (Stack s) = 
+>   case s of
+>     [] -> Nothing
+>     (x:xs) -> Just (x, Stack xs)
 
 > prob10Test0 = isNothing $ pop stack0
 > prob10Test1 = pop stack1 == Just (1, Stack [2,3,4,5])
 > prob10Test2 = pop stack2 == Just ("sum", Stack ["summus", "mus"])
 > prob10 = test([prob10Test0, prob10Test1, prob10Test2])
-
---------< Note to Mark >--------
-
-Given `Stack` has derived membership in the Eq typeclass, why is `isNothing` 
-needed above as opposed to (== Nothing)?
-
---------------------------------
 
 
 11. Write a peek function, `peek`, that takes an instance of the Stack type and
