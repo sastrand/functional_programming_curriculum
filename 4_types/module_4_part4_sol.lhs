@@ -52,7 +52,7 @@ Exercises
 > whitelist = do 
 >               traffic <- fmap Set.fromList $ fmap Text.lines (Text.readFile "traffic.txt")
 >               whtlist <- fmap Set.fromList $ fmap Text.lines (Text.readFile "whtlist.txt")
->               putStrLn $ show $ Set.size $ Set.difference traffic whtlist
+>               return $ Set.size $ Set.difference traffic whtlist
 
 ------
 References
