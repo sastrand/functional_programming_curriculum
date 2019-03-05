@@ -10,7 +10,9 @@ Name:
 
     wget -np -nH --cut-dirs 2  http://web.cecs.pdx.edu/~sastrand/module_4_part4.lhs
 
-> import Network.HTTP
+> import qualified Data.Text    as Text
+> import qualified Data.Text.IO as Text
+> import qualified Data.Set     as Set
 
 ------
 An introduction to I/O in Haskell
@@ -38,57 +40,19 @@ In this module, we'll build an application that does both of those things.
 Reading from a file
 ------
 
-Say you have an API key and--reponsibly--you don't want to store it in your
-code, but instead you choose to save it in a `keys.txt` file somewhere else on
-your system.
-
-To access the values in `keys.txt` you need to read them into a data strucutre.
-For now, assuming there is only one key in keys.txt, just pulling it out of the
-file and saving it as a string will work.
-
-> gotBack = getResponseBody (getRequest "http://api.adviceslip.com/advice")
-
-
 ------
 Exercises
 ------
 
-** The Euclidean definition of the integer modulus operation differs from the
-   C-style or "Knuth division" mod when one of the arguments in negative.
- 
-   The Euclidean definition of mod says the result should always be non-
-   negative:
+**. Write a function, white-list that reads in all the IPs in the file
+    traffic.txt and all the IPs in the file white_list.txt and returns the 
+    number of IP addresses in the traffic file that were not in the white list 
+    file.
 
-        a mod b = r, where a = b * q + r and (0 <= r < b)
-
-   So with this convention -7 % 3 = 2
-
-        as -7 = 3 * q + r
-        which, given (0 <= r < b), must be -7 = 3 * -3 + 2.
-
-   The C99 Standard defines the mod operation differently:
-
-   "Modular division returns the remainder produced after performing integer 
-   division on the two operands. The operands must be of a primitive integer 
-   type."
-
-        So for C -7 % 3 = -1
-
-   Haskell uses the Euclidean definition in its `mod` function and the Knuth
-   division definition in its `rem` function.
-
-   Haskell is not the only language to make this distinction, and when working
-   with both, it can be helpful to have a tool to compare the results as a
-   sanity check.
-
-   Write a command line calculator that takes two arguments separated by a
-   space and returns the result of both of these operations. 
-
-
-** Write a function, `clearance`, that takes a file path to a document and
-   returns True if the document contains the string "SECRET" or the string
-   "CONFIDENTIAL" and False otherwise.
-
+> whitelist = do 
+>               traffic <- fmap Set.fromList $ fmap Text.lines (Text.readFile "traffic.txt")
+>               whtlist <- fmap Set.fromList $ fmap Text.lines (Text.readFile "whtlist.txt")
+>               putStrLn $ show $ Set.size $ Set.difference traffic whtlist
 
 ------
 References
