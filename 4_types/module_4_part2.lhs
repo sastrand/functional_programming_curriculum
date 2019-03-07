@@ -37,9 +37,6 @@ those types to be sorted.
 > instance Ord Book where
 >   compare x y = compare (title x) (title y)
 
-To try it out:
-
-> sortLentOut pat = Patron (name pat) (ph pat) (sort $ lentOut pat)
 
 ------
 Exercises
