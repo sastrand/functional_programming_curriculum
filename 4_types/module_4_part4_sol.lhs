@@ -28,31 +28,39 @@ This matter of doing something takes us to the edge of the material we've set
 out to cover. For a purely non-side effecting language, introducing the ability
 to side-effect safely and explicity entails a new set of language features. 
 
-I/O is one instance of doing something, and we'll work with it here 
-
-    * read from and write to a file
-    * interacting with other parts of the system (eg. the network)
-    * create an interactive program that can run without the interpreter
-
-In this module, we'll build an application that does both of those things.
+I/O is one instance of doing something, and of all the kinds of I/O we can do,
+we'll start with reading from a writing to a file.
 
 ------
-Reading from a file
+File I/O
 ------
+
+* do notation
+* the I/O monad
 
 ------
 Exercises
 ------
 
-**. Write a function, white-list that reads in all the IPs in the file
-    traffic.txt and all the IPs in the file white_list.txt and returns the 
+**. Write a function, `whitelist`, that reads in all the IPs in the file
+    `traffic.txt` and all the IPs in the file `white_list.txt` and returns the 
     number of IP addresses in the traffic file that were not in the white list 
     file.
 
 > whitelist = do 
->               traffic <- fmap Set.fromList $ fmap Text.lines (Text.readFile "traffic.txt")
->               whtlist <- fmap Set.fromList $ fmap Text.lines (Text.readFile "whtlist.txt")
+>               let mkset = fmap Set.fromList . fmap Text.lines
+>               traffic <- mkset (Text.readFile "traffic.txt")
+>               whtlist <- mkset (Text.readFile "whtlist.txt")
 >               return $ Set.size $ Set.difference traffic whtlist
+
+
+**. Write a function, `redactor`, that takes a list of file names and a list of 
+    strings to redact from those files and writes over the original files with
+    the redacted strings replaced with the string `[REDACTED]`.
+
+ redactor = do
+              input <- fmap Set.f 
+
 
 ------
 References
