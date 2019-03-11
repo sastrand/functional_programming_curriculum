@@ -44,6 +44,25 @@ File I/O
 Exercises
 ------
 
+**. Write a function, `getDotProd` that opens the file `someVectors.txt` and
+    returns the dot product of the two vectors inside of it.
+
+> dotProd :: [Int] -> [Int] -> Int
+> dotProd xs ys = sum $ zipWith (*) xs ys
+
+> mklsts :: String -> [[Int]]
+> mklsts x = map read $ lines x
+
+> getDotProd = do
+>                input <-readFile "someVectors.txt"
+>                return $ mklsts input
+
+                return $ dotProd (head input) (head input)
+
+> getDotProd' = do
+>                input <- Text.readFile "someVectors.txt"
+>                return input
+
 **. Write a function, `whitelist`, that reads in all the IPs in the file
     `traffic.txt` and all the IPs in the file `white_list.txt` and returns the 
     number of IP addresses in the traffic file that were not in the white list 
@@ -56,20 +75,25 @@ Exercises
 >     return $ Set.size $ Set.difference traffic whtlist
 
 
-**. Write a function, `redactor`, that takes a list of file names and a list of 
+**. Write a function, `redactor`, that takes a file name and a list of 
     strings to redact from those files and replaces all the secret strings in
-    the original file with the string `[REDACTED]`.
+    the original file with the string `REDACTED`.
+
+> toRedact = ["Discs", "disc", "Circular", "elliptical", "domed", "Metallic",
+>             "object", "objects"]
    
-> redactWord r [] = []
-> redactWord r (w:ws)
->   | w == r = "[REDACTED]" : redactWord r ws
->   | otherwise = w : redactWord r ws
+> redactWords rs [] = []
+> redactWords rs (w:ws)
+>   | w `elem` rs = "REDACTED" : redactWords rs ws
+>   | otherwise = w : redactWords rs ws
 
+ redactor = do
+     input <- fmap (fmap words) $ fmap lines $ readFile "amc_memo.txt"
+     return $ fmap (redactWords toRedact) input
 
-
-> redactorHelper = do
->     input <- fmap Text.lines $ Text.readFile "amc_memo.txt"
->     return input
+ redactor = do
+     input <- fmap (fmap (redactWords toRedact)) $ fmap (fmap words) $ fmap lines $ readFile "amc_memo.txt"
+     return 
 
 
 ------
