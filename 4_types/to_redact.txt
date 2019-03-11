@@ -1,0 +1,8 @@
+Discs
+disc
+Circular
+elliptical
+domed
+Metallic
+object
+objects

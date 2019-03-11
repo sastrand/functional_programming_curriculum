@@ -38,6 +38,8 @@ File I/O
 * do notation
 * the I/O monad
 
+> getWhitelist = fmap Text.lines $ Text.readFile "whtlist.txt"
+
 ------
 Exercises
 ------
@@ -48,18 +50,26 @@ Exercises
     file.
 
 > whitelist = do 
->               let mkset = fmap Set.fromList . fmap Text.lines
->               traffic <- mkset (Text.readFile "traffic.txt")
->               whtlist <- mkset (Text.readFile "whtlist.txt")
->               return $ Set.size $ Set.difference traffic whtlist
+>     let mkset = fmap Set.fromList . fmap Text.lines
+>     traffic <- mkset (Text.readFile "traffic.txt")
+>     whtlist <- mkset (Text.readFile "whtlist.txt")
+>     return $ Set.size $ Set.difference traffic whtlist
 
 
 **. Write a function, `redactor`, that takes a list of file names and a list of 
-    strings to redact from those files and writes over the original files with
-    the redacted strings replaced with the string `[REDACTED]`.
+    strings to redact from those files and replaces all the secret strings in
+    the original file with the string `[REDACTED]`.
+   
+> redactWord r [] = []
+> redactWord r (w:ws)
+>   | w == r = "[REDACTED]" : redactWord r ws
+>   | otherwise = w : redactWord r ws
 
- redactor = do
-              input <- fmap Set.f 
+
+
+> redactorHelper = do
+>     input <- fmap Text.lines $ Text.readFile "amc_memo.txt"
+>     return input
 
 
 ------
