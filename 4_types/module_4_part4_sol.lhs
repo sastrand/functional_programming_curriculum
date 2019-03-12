@@ -50,33 +50,32 @@ Exercises
 > dotProd :: [Int] -> [Int] -> Int
 > dotProd xs ys = sum $ zipWith (*) xs ys
 
+> getDotProdFmLsts :: [[Int]] -> Int
+> getDotProdFmLsts xss = dotProd (head xss) (last xss)
+
 > mklsts :: String -> [[Int]]
 > mklsts x = map read $ lines x
 
 > getDotProd = do
 >                input <-readFile "someVectors.txt"
->                return $ mklsts input
-
-                return $ dotProd (head input) (head input)
-
-> getDotProd' = do
->                input <- Text.readFile "someVectors.txt"
->                return input
+>                return $ getDotProdFmLsts $ mklsts input
 
 **. Write a function, `whitelist`, that reads in all the IPs in the file
     `traffic.txt` and all the IPs in the file `white_list.txt` and returns the 
     number of IP addresses in the traffic file that were not in the white list 
     file.
 
-> whitelist = do 
->     let mkset = fmap Set.fromList . fmap Text.lines
->     traffic <- mkset (Text.readFile "traffic.txt")
->     whtlist <- mkset (Text.readFile "whtlist.txt")
->     return $ Set.size $ Set.difference traffic whtlist
+> mkset :: String -> Set.Set String
+> mkset s = Set.fromList (lines s)
+
+> whitelist' = do
+>                traffic <- readFile "traffic.txt"
+>                whtlist <- readFile "whtlist.txt"
+>                return $ Set.size $ Set.difference (mkset traffic) (mkset whtlist)
 
 
 **. Write a function, `redactor`, that takes a file name and a list of 
-    strings to redact from those files and replaces all the secret strings in
+    strings to redact from that file and replaces all the confidential strings in
     the original file with the string `REDACTED`.
 
 > toRedact = ["Discs", "disc", "Circular", "elliptical", "domed", "Metallic",
@@ -86,6 +85,13 @@ Exercises
 > redactWords rs (w:ws)
 >   | w `elem` rs = "REDACTED" : redactWords rs ws
 >   | otherwise = w : redactWords rs ws
+
+> redactFromStr s = map (redactWords toRedact) (map words (lines s))
+
+> redactor fpath = do
+>              input <- readFile fpath
+>              return $ redactFromStr input
+
 
  redactor = do
      input <- fmap (fmap words) $ fmap lines $ readFile "amc_memo.txt"
