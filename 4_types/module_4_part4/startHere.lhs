@@ -8,7 +8,7 @@ Part   4: I/O
 Name:
 ------
 
-    wget -np -nH --cut-dirs 2  http://web.cecs.pdx.edu/~sastrand/module_4_part4
+    wget -np -nH --cut-dirs 2 http://web.cecs.pdx.edu/~sastrand/module_4_part4.zip
 
 > import qualified Data.Set     as Set
 
