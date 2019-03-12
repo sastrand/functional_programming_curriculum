@@ -155,10 +155,12 @@ Exercises
 
 > whitelist :: IO Int 
 > whitelist = do
->               traffic <- readFile "traffic.txt"
->               whtlist <- readFile "whtlist.txt"
+>               traffic <- readFile "./module_4_part4/traffic.txt"
+>               whtlist <- readFile "./module_4_part4/whtlist.txt"
 >               return $ Set.size $ Set.difference (mkset traffic) (mkset whtlist)
 
+Try this out with the files "traffic.txt" and "whtlist.txt".
+You should expect a result of 5.
 
 02. Write a function, `redactor`, that takes a file name and a list of 
     strings to redact from that file and replaces all the confidential strings in
@@ -184,4 +186,6 @@ Exercises
 > redactor fpath = do
 >              input <- readFile fpath
 >              writeFile "output.txt" $ redactFromFile input
+
+Try this out with the file "amcMemo.txt" and examine the results.
 
