@@ -76,10 +76,11 @@ Exercises
 
 **. Write a function, `redactor`, that takes a file name and a list of 
     strings to redact from that file and replaces all the confidential strings in
-    the original file with the string `REDACTED`.
+    the original file with the string `REDACTED`, writing the result to
+    `output.txt`.
 
-> toRedact = ["Discs", "disc", "Circular", "elliptical", "domed", "Metallic",
->             "object", "objects"]
+> toRedact = ["Discs", "disc", "Circular", "Flying", "elliptical", "domed", 
+>             "Metallic", "object", "objects"]
    
 > redactWords rs [] = []
 > redactWords rs (w:ws)
@@ -88,22 +89,10 @@ Exercises
 
 > redactFromStr s = map (redactWords toRedact) (map words (lines s))
 
+> redactFromFile :: String -> String
+> redactFromFile s = unlines $ map unwords (redactFromStr s)
+
 > redactor fpath = do
 >              input <- readFile fpath
->              return $ redactFromStr input
+>              writeFile "output.txt" $ redactFromFile input
 
-
- redactor = do
-     input <- fmap (fmap words) $ fmap lines $ readFile "amc_memo.txt"
-     return $ fmap (redactWords toRedact) input
-
- redactor = do
-     input <- fmap (fmap (redactWords toRedact)) $ fmap (fmap words) $ fmap lines $ readFile "amc_memo.txt"
-     return 
-
-
-------
-References
-------
-
-https://stackoverflow.com/questions/5891140/difference-between-mod-and-rem-in-haskell
