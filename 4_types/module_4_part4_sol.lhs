@@ -56,11 +56,13 @@ Exercises
 > mklsts :: String -> [[Int]]
 > mklsts x = map read $ lines x
 
+> getDotProd :: IO Int
 > getDotProd = do
 >                input <-readFile "someVectors.txt"
 >                return $ getDotProdFmLsts $ mklsts input
 
-**. Write a function, `whitelist`, that reads in all the IPs in the file
+
+01. Write a function, `whitelist`, that reads in all the IPs in the file
     `traffic.txt` and all the IPs in the file `white_list.txt` and returns the 
     number of IP addresses in the traffic file that were not in the white list 
     file.
@@ -68,30 +70,34 @@ Exercises
 > mkset :: String -> Set.Set String
 > mkset s = Set.fromList (lines s)
 
-> whitelist' = do
->                traffic <- readFile "traffic.txt"
->                whtlist <- readFile "whtlist.txt"
->                return $ Set.size $ Set.difference (mkset traffic) (mkset whtlist)
+> whitelist :: IO Int 
+> whitelist = do
+>               traffic <- readFile "traffic.txt"
+>               whtlist <- readFile "whtlist.txt"
+>               return $ Set.size $ Set.difference (mkset traffic) (mkset whtlist)
 
 
-**. Write a function, `redactor`, that takes a file name and a list of 
+02. Write a function, `redactor`, that takes a file name and a list of 
     strings to redact from that file and replaces all the confidential strings in
     the original file with the string `REDACTED`, writing the result to
     `output.txt`.
 
 > toRedact = ["Discs", "disc", "Circular", "Flying", "elliptical", "domed", 
 >             "Metallic", "object", "objects"]
-   
+
+> redactWords :: [String] -> [String] -> [String]
 > redactWords rs [] = []
 > redactWords rs (w:ws)
 >   | w `elem` rs = "REDACTED" : redactWords rs ws
 >   | otherwise = w : redactWords rs ws
 
+> redactFromStr :: String -> [[String]]
 > redactFromStr s = map (redactWords toRedact) (map words (lines s))
 
 > redactFromFile :: String -> String
 > redactFromFile s = unlines $ map unwords (redactFromStr s)
 
+> redactor :: FilePath -> IO ()
 > redactor fpath = do
 >              input <- readFile fpath
 >              writeFile "output.txt" $ redactFromFile input
