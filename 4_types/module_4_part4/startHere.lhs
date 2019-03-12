@@ -10,8 +10,6 @@ Name:
 
     wget -np -nH --cut-dirs 2  http://web.cecs.pdx.edu/~sastrand/module_4_part4
 
-> import qualified Data.Text    as Text
-> import qualified Data.Text.IO as Text
 > import qualified Data.Set     as Set
 
 ------
@@ -59,7 +57,7 @@ container called a monad. The result of a read or write to a file will then be
 a value wrapped in the IO monad, so it will have type IO of something.
 
 ------
-example
+Examples
 ------
 
 To read a file, we can use the `readFile` function in the prelude. Likewise, to
@@ -69,7 +67,6 @@ In this directory is a file of new-line separated 32-bit IP addresses at
 `whtlist.txt`.
 
 > whiteList = readFile "whtlist.txt"
-> hi = "hello, file"
 > writeHello str = writeFile "hello.txt" str
 
 Let's check out the types of these functions:
@@ -103,17 +100,26 @@ block.
 >                input <-readFile "someVectors.txt"
 >                return $ getDotProdFmLsts $ mklsts input
 
-Type signatures become important here, as we must tell the compiler what to
-expect when it tries to parse input with `read`.
+If you open up `someVectors.txt` you'll see two vectors with a dot product of 32.
 
-Alternatively, to write to a file in a do block:
+Alternatively, to write to a file:
 
+> writeDotProd :: IO ()
 > writeDotProd = do
 >                  input <- getDotProd
 >                  writeFile "dot_prod_output.txt" (show input)
 
-The `show` is necessary because `getDotProd` returns an Int and `writeFile`
-expects a String.
+The `show` converts the Int returned from `getDotProd` to the String expected
+by `writeFile`.
+
+------
+Types inside do block
+------
+
+Type signatures become important here, as the compiler must be told what to
+expect when it tries to parse input with `read`. In order for the readFile in
+`getDotProd` to work, `mklsts` needed a type signature to specifiy what `read`
+should be expected to return.
 
 The do block itself serves as a wrapper for all the IO activity inside of it,
 so inside the do block, each assigned IO value can be treated like its
@@ -122,7 +128,7 @@ larger program will be IO String, but inside the do block, you can assign it to
 a variable and use it as type String.
 
 ------
-Notes on helpful functions
+Notes on some helpful functions
 ------
 
 All of these functions are in the prelude except the functions prefixed by
@@ -150,17 +156,12 @@ Exercises
     number of IP addresses in the traffic file that were not in the white list 
     file.
 
-> mkset :: String -> Set.Set String
-> mkset s = Set.fromList (lines s)
-
 > whitelist :: IO Int 
-> whitelist = do
->               traffic <- readFile "./module_4_part4/traffic.txt"
->               whtlist <- readFile "./module_4_part4/whtlist.txt"
->               return $ Set.size $ Set.difference (mkset traffic) (mkset whtlist)
+> whitelist = undefined
 
 Try this out with the files "traffic.txt" and "whtlist.txt".
 You should expect a result of 5.
+
 
 02. Write a function, `redactor`, that takes a file name and a list of 
     strings to redact from that file and replaces all the confidential strings in
@@ -170,22 +171,8 @@ You should expect a result of 5.
 > toRedact = ["Discs", "disc", "Circular", "Flying", "elliptical", "domed", 
 >             "Metallic", "object", "objects"]
 
-> redactWords :: [String] -> [String] -> [String]
-> redactWords rs [] = []
-> redactWords rs (w:ws)
->   | w `elem` rs = "REDACTED" : redactWords rs ws
->   | otherwise = w : redactWords rs ws
-
-> redactFromStr :: String -> [[String]]
-> redactFromStr s = map (redactWords toRedact) (map words (lines s))
-
-> redactFromFile :: String -> String
-> redactFromFile s = unlines $ map unwords (redactFromStr s)
-
 > redactor :: FilePath -> IO ()
-> redactor fpath = do
->              input <- readFile fpath
->              writeFile "output.txt" $ redactFromFile input
+> redactor fpath = undefined
 
 Try this out with the file "amcMemo.txt" and examine the results.
 
