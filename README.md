@@ -79,6 +79,7 @@ Students who successfully complete this lab will be able to:
     - Working with functions
     - Working with lists
     - List comprehensions
+    - Control flow
 
 
 -------------------------------------
@@ -103,10 +104,12 @@ Students who successfully complete this lab will be able to:
 
   * Assignments
     - Write some awesome recursive functions
+    - Use tuples to create a key-value store
+    - And functions to perform set operations on lists
 
 
 -------------------------------------
--- Module 3: weeks 5 - 6
+-- Module 3: weeks 5 - 7
 -- Recursive data structures
 -------------------------------------
  
@@ -119,12 +122,12 @@ Students who successfully complete this lab will be able to:
     - Function composition
 
   * Assignments
-    - Use tuples to create a key-value store
     - Add functionality to a BST module
+    - Use higher-order functions on lists
 
 
 -------------------------------------
--- Module 4: weeks 7 - 8
+-- Module 4: weeks 8 - 10
 -- Types in Haskell
 -------------------------------------
  
@@ -143,12 +146,15 @@ Students who successfully complete this lab will be able to:
     - The IO Type
 
   * Assignments
-- Define an algebraic data type to do something handy
-- Write an interactive program using `do` and the IO Type
+    - Define a Library type and supporting functions
+    - Expand a stack ADT
+    - Write a text-processing program using `do` and the IO Type
 
 
 -------------------------------------
--- Module 5: weeks 9 - 10
+-- Future work
+-------------------------------------
+-- Module 5
 -- Parallelism and Haskell
 -------------------------------------
  
